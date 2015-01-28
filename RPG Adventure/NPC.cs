@@ -66,7 +66,7 @@ namespace RPG_Adventure
             }
             return type;
         }//End of randomType
-        public static void npcMovement(NPC npc)
+        public static void npcMovement(NPC npc, List<Object> walls, List<Door> doors)
         {
             Random r = new Random();
             for (int i = 0; i < npc.speed; i++)
@@ -84,7 +84,25 @@ namespace RPG_Adventure
                         npc.y -= r.Next(0, 1 + 1);
                     }
                 }
-
+                for (int t = 0; t < walls.Count; t++)
+                {
+                    if (walls[t].x == npc.x & walls[t].y == npc.y)
+                    {
+                        npc.x = npc.lastX;
+                        npc.y = npc.lastY;
+                    }
+                }
+                for (int t = 0; t < doors.Count; t++)
+                {
+                    if (doors[t].x == npc.x & doors[t].y == npc.y)
+                    {
+                        if (doors[t].locked == true)
+                        {
+                            npc.x = npc.lastX;
+                            npc.y = npc.lastY;
+                        }
+                    }
+                } 
             }
         }//End of npcMovement
         public static void npcRangedAttack(NPC npc,List<Creature> creatures, Player player, Object arrow, List<Object> walls, int width, int height, System.Windows.Forms.TextBox messageBox)

@@ -829,7 +829,7 @@ namespace RPG_Adventure
                 for (int t = 0; t < npcs.Count; t++)
                 {
                     Creature blank = new Creature("", "", Color.Black, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, null);
-                    NPC.npcMovement(npcs[t]);
+                    NPC.npcMovement(npcs[t], walls, doors);
                     NPC.npcMeleeAttack(npcs[t], blank, player, messageBox);
                     NPC.npcRangedAttack(npcs[t], creatures, player, arrow, walls, width, height, messageBox);
                     NPC.npcDead(npcs[t]);
@@ -849,13 +849,13 @@ namespace RPG_Adventure
                 //Npcs
                 for (int t = 0; t < npcs.Count; t++)
                 {
-                    NPC.npcMovement(npcs[t]);
+                    NPC.npcMovement(npcs[t], walls, doors);
                     NPC.npcMeleeAttack(npcs[t], creatures[i], player, messageBox);
                     NPC.npcRangedAttack(npcs[t], creatures, player, arrow, walls, width, height, messageBox);
                     NPC.npcDead(npcs[t]);
                 }
                 Creature.creatureDead(creatures[i]);
-                Creature.creatureMovement(creatures[i], player, npcs, walls);
+                Creature.creatureMovement(creatures[i], player, npcs, walls, doors);
                 Creature.creatureRangedAttack(creatures[i], player, npcs, arrow, walls, width, height, messageBox);
                 Creature.creatureMeleeAttack(creatures[i], player, npcs, messageBox);
                 Creature.creatureDead(creatures[i]);
@@ -945,11 +945,6 @@ namespace RPG_Adventure
                 }
                 for (int t = 0; t < npcs.Count; t++)
                 {
-                    if (walls[i].x == npcs[t].x & walls[i].y == npcs[t].y)
-                    {
-                        npcs[t].x = npcs[t].lastX;
-                        npcs[t].y = npcs[t].lastY;
-                    }
                     if (npcs[t].x == width + 1)
                     {
                         npcs[t].x = npcs[t].lastX;
@@ -965,18 +960,7 @@ namespace RPG_Adventure
                     else if (npcs[t].y == -1)
                     {
                         npcs[t].y = npcs[t].lastY;
-                    }
-                    for (int l = 0; l < doors.Count; l++)
-                    {
-                        if (doors[l].x == npcs[t].x & doors[l].y == npcs[t].y)
-                        {
-                            if (doors[l].locked == true)
-                            {
-                                npcs[t].x = npcs[t].lastX;
-                                npcs[t].y = npcs[t].lastY;
-                            }
-                        }
-                    }   
+                    } 
                 }
             }
             //Creature Collisions
