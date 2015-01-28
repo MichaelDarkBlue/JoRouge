@@ -115,4 +115,30 @@ namespace RPG_Adventure
             name = nameI;
         }
     }
+    public class Quest
+    {
+        public string type;
+        public string objective;
+        public int amount;
+        public string npcname;
+        public int rgold;
+        public int rreputation;
+        public int sofar;
+        public Quest(string typeI, string objectiveI, int amountI, string npcnameI, int rgoldI, int rreputationI, int sofarI)
+        {
+            type = typeI;
+            objective = objectiveI;
+            amount = amountI;
+            npcname = npcnameI;
+            rgold = rgoldI;
+            rreputation = rreputationI;
+            sofar = sofarI;
+        }
+        public static Quest randomQuest(Quest rQuest, int lvlmod)
+        {
+            Random r = new Random();
+            rQuest = new Quest("Kill", "Orc", 3, "", 5, 2, 0);
+            return rQuest;
+        }
+    }
 }

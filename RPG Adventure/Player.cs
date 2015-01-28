@@ -31,8 +31,8 @@ namespace RPG_Adventure
         public int creaturesKilled;
         public int itemsBought;
         public List<Item> inventory = new List<Item>();
-        public Player()
-            : base()
+        public List<Quest> quests;
+        public Player() : base()
         {
         }
         public static void playerMovement(Player player, int keypressed)

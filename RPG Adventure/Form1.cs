@@ -69,6 +69,11 @@ namespace RPG_Adventure
             firstTime = true;
             overworld();
         }
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Current_Quests cq = new Current_Quests(player);
+            cq.Show();
+        }
         private void outputBox_KeyUp(object sender, KeyEventArgs e)
         {
             int keypressed = (int)e.KeyCode;
@@ -470,6 +475,7 @@ namespace RPG_Adventure
             if (firstTime)
             {
                 player.inventory.Add(new Item("Bread", 0, 0, 1, 0, true, 1, 2, false, "Hand", true, "o", 0, 0));
+                player.quests = new List<Quest>();
                 player.health = 8;
                 player.maxhealth = 8;
                 player.damage = 1;
@@ -880,7 +886,7 @@ namespace RPG_Adventure
                 {
                     if (player.x == npcs[i].x & player.y == npcs[i].y)
                     {
-                        NPCWindow mer = new NPCWindow(npcs[i], player, messageBox);
+                        NPCWindow mer = new NPCWindow(npcs[i], player, messageBox, lvlmod);
                         mer.Show();
                     }
                 }
