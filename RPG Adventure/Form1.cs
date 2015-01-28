@@ -12,8 +12,8 @@ namespace RPG_Adventure
 {
     public partial class Form1 : Form
     {
-        private List<Object> walls = new List<Object>();
-        private List<Object> trees = new List<Object>();
+        private List<Entity> walls = new List<Entity>();
+        private List<Entity> trees = new List<Entity>();
         private List<Merchant> merchants = new List<Merchant>();
         private List<Creature> creatures = new List<Creature>();
         private List<Door> doors = new List<Door>();
@@ -21,9 +21,9 @@ namespace RPG_Adventure
         private Player player = new Player();
         private List<Item> inventory = new List<Item>();
         private List<Item> merchantI = new List<Item>();
-        private Object downstairs = new Object(0, 0, ">", Color.LightGray);
-        private Object upstairs = new Object(0, 0, "<", Color.LightGray);
-        private Object arrow = new Object(0, 0, "-", Color.BurlyWood);
+        private Entity downstairs = new Entity(0, 0, ">", Color.LightGray);
+        private Entity upstairs = new Entity(0, 0, "<", Color.LightGray);
+        private Entity arrow = new Entity(0, 0, "-", Color.BurlyWood);
         private List<NPC> npcs = new List<NPC>();
         Random r = new Random();
         int width = 30;
@@ -82,16 +82,16 @@ namespace RPG_Adventure
             {
                 inventory = new List<Item>();
             }
-            trees = new List<Object>();
+            trees = new List<Entity>();
             doors = new List<Door>();
             creatures = new List<Creature>();
             chests = new List<Chest>();
-            walls = new List<Object>();
+            walls = new List<Entity>();
             merchants = new List<Merchant>();
             merchantI = new List<Item>();
             npcs = new List<NPC>();
-            upstairs = new Object(-2, 0, "<", Color.LightGray);
-            downstairs = new Object(-2, 0, ">", Color.LightGray);
+            upstairs = new Entity(-2, 0, "<", Color.LightGray);
+            downstairs = new Entity(-2, 0, ">", Color.LightGray);
             if (firstTime)
             {
                 messageBox.Text = "";
@@ -161,7 +161,7 @@ namespace RPG_Adventure
                             placeX++;
                             if (r.Next(0, 8 + 1) != 1)
                             {
-                                walls.Add(new Object(placeX, placeY, "█", Color.Gray));
+                                walls.Add(new Entity(placeX, placeY, "█", Color.Gray));
                             }
                             else if (r.Next(0, 2 + 1) != 1)
                             {
@@ -190,7 +190,7 @@ namespace RPG_Adventure
                             placeY--;
                             if (r.Next(0, 8 + 1) != 1)
                             {
-                                walls.Add(new Object(placeX, placeY, "█", Color.Gray));
+                                walls.Add(new Entity(placeX, placeY, "█", Color.Gray));
                             }
                             else if (r.Next(0, 2 + 1) != 1)
                             {
@@ -219,7 +219,7 @@ namespace RPG_Adventure
                             placeX--;
                             if (r.Next(0, 8 + 1) != 1)
                             {
-                                walls.Add(new Object(placeX, placeY, "█", Color.Gray));
+                                walls.Add(new Entity(placeX, placeY, "█", Color.Gray));
                             }
                             else if (r.Next(0, 2 + 1) != 1)
                             {
@@ -248,7 +248,7 @@ namespace RPG_Adventure
                             placeY++;
                             if (r.Next(0, 8 + 1) != 1)
                             {
-                                walls.Add(new Object(placeX, placeY, "█", Color.Gray));
+                                walls.Add(new Entity(placeX, placeY, "█", Color.Gray));
                             }
                             else if (r.Next(0, 2 + 1) != 1)
                             {
@@ -434,11 +434,11 @@ namespace RPG_Adventure
                 }
                 if (r.Next(1, 2 + 1) == 1)
                 {
-                    trees.Add(new Object(placeX, placeY, "♣", Color.ForestGreen));
+                    trees.Add(new Entity(placeX, placeY, "♣", Color.ForestGreen));
                 }
                 else
                 {
-                    trees.Add(new Object(placeX, placeY, "♠", Color.ForestGreen));
+                    trees.Add(new Entity(placeX, placeY, "♠", Color.ForestGreen));
                 }
             }
         //Stair Placement
@@ -501,16 +501,16 @@ namespace RPG_Adventure
         private void dungeon()
         {
             //Set to None
-            trees = new List<Object>();
+            trees = new List<Entity>();
             doors = new List<Door>();
             creatures = new List<Creature>();
             chests = new List<Chest>();
-            walls = new List<Object>();
+            walls = new List<Entity>();
             merchants = new List<Merchant>();
             merchantI = new List<Item>();
             npcs = new List<NPC>();
-            upstairs = new Object(-2, 0, "<", Color.LightGray);
-            downstairs = new Object(-2, 0, ">", Color.LightGray);
+            upstairs = new Entity(-2, 0, "<", Color.LightGray);
+            downstairs = new Entity(-2, 0, ">", Color.LightGray);
             //Setup
             lvlmod = dlevel - 1;
             //Dungeon Generation
@@ -543,7 +543,7 @@ namespace RPG_Adventure
                             placeX++;
                             if (r.Next(0, 8 + 1) != 1)
                             {
-                                walls.Add(new Object(placeX, placeY, "█", Color.Gray));
+                                walls.Add(new Entity(placeX, placeY, "█", Color.Gray));
                             }
                             else if (r.Next(0, 2 + 1) != 1)
                             {
@@ -572,7 +572,7 @@ namespace RPG_Adventure
                             placeY--;
                             if (r.Next(0, 8 + 1) != 1)
                             {
-                                walls.Add(new Object(placeX, placeY, "█", Color.Gray));
+                                walls.Add(new Entity(placeX, placeY, "█", Color.Gray));
                             }
                             else if (r.Next(0, 2 + 1) != 1)
                             {
@@ -601,7 +601,7 @@ namespace RPG_Adventure
                             placeX--;
                             if (r.Next(0, 8 + 1) != 1)
                             {
-                                walls.Add(new Object(placeX, placeY, "█", Color.Gray));
+                                walls.Add(new Entity(placeX, placeY, "█", Color.Gray));
                             }
                             else if (r.Next(0, 2 + 1) != 1)
                             {
@@ -630,7 +630,7 @@ namespace RPG_Adventure
                             placeY++;
                             if (r.Next(0, 8 + 1) != 1)
                             {
-                                walls.Add(new Object(placeX, placeY, "█", Color.Gray));
+                                walls.Add(new Entity(placeX, placeY, "█", Color.Gray));
                             }
                             else if (r.Next(0, 2 + 1) != 1)
                             {
@@ -768,11 +768,11 @@ namespace RPG_Adventure
                 }
                 if (r.Next(1, 2 + 1) == 1)
                 {
-                    trees.Add(new Object(placeX, placeY, "♣", Color.ForestGreen));
+                    trees.Add(new Entity(placeX, placeY, "♣", Color.ForestGreen));
                 }
                 else
                 {
-                    trees.Add(new Object(placeX, placeY, "♠", Color.ForestGreen));
+                    trees.Add(new Entity(placeX, placeY, "♠", Color.ForestGreen));
                 }
             }
             //Up Stair Placement

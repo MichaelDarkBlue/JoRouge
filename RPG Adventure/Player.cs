@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace RPG_Adventure
 {
-    public class Player : Object
+    public class Player : Entity
     {
         public int gold;
         public int health = 8;
@@ -149,7 +149,7 @@ namespace RPG_Adventure
                 }
             }
         }//End of playerAttack
-        public static void playerRangedAttack(List<Creature> creatures, Player player, Object arrow, List<Object> walls, int width, int height, System.Windows.Forms.TextBox messageBox, int keypressed, List<Item> inventory)
+        public static void playerRangedAttack(List<Creature> creatures, Player player, Entity arrow, List<Entity> walls, int width, int height, System.Windows.Forms.TextBox messageBox, int keypressed, List<Item> inventory)
         {
             //Player Ranged Weapons
             if (player.ranged == true)

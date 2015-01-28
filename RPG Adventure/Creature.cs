@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace RPG_Adventure
 {
-    public class Creature : Object
+    public class Creature : Entity
     {
         public int gold;
         public int health;
@@ -45,7 +45,7 @@ namespace RPG_Adventure
             lastY = lastYI;
             speed = speedI;
         }
-        public static void creatureMovement(Creature creature, Player player, List<NPC> npcs, List<Object> walls, List<Door> doors)
+        public static void creatureMovement(Creature creature, Player player, List<NPC> npcs, List<Entity> walls, List<Door> doors)
         {
             Random r = new Random();
             creature.lastX = creature.x;
@@ -140,7 +140,7 @@ namespace RPG_Adventure
                 }
             }
         }//End of creatureMovement
-        public static void creatureRangedAttack(Creature creature, Player player, List<NPC> npcs, Object arrow, List<Object> walls, int width, int height, System.Windows.Forms.TextBox messageBox)
+        public static void creatureRangedAttack(Creature creature, Player player, List<NPC> npcs, Entity arrow, List<Entity> walls, int width, int height, System.Windows.Forms.TextBox messageBox)
         {
             //Ranged Attack
             if (creature.range > 0)

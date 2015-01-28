@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace RPG_Adventure
 {
-    public class NPC : Object
+    public class NPC : Entity
     {
         public int health;
         public int damage;
@@ -66,7 +66,7 @@ namespace RPG_Adventure
             }
             return type;
         }//End of randomType
-        public static void npcMovement(NPC npc, List<Object> walls, List<Door> doors)
+        public static void npcMovement(NPC npc, List<Entity> walls, List<Door> doors)
         {
             Random r = new Random();
             for (int i = 0; i < npc.speed; i++)
@@ -105,7 +105,7 @@ namespace RPG_Adventure
                 } 
             }
         }//End of npcMovement
-        public static void npcRangedAttack(NPC npc,List<Creature> creatures, Player player, Object arrow, List<Object> walls, int width, int height, System.Windows.Forms.TextBox messageBox)
+        public static void npcRangedAttack(NPC npc,List<Creature> creatures, Player player, Entity arrow, List<Entity> walls, int width, int height, System.Windows.Forms.TextBox messageBox)
         {
             //Ranged Attack
             if (npc.range > 0)

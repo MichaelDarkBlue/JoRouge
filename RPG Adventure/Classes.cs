@@ -14,13 +14,13 @@ namespace RPG_Adventure
     //    public Creature creaturs[];
 
     //}
-    public class Object
+    public class Entity
     {
         public int x;
         public int y;
         public string look;
         public Color color = Color.White;
-        public Object(int xI,int yI,string lookI,Color colorI)
+        public Entity(int xI,int yI,string lookI,Color colorI)
         {
             x = xI;
             y = yI;
@@ -30,7 +30,7 @@ namespace RPG_Adventure
                 color = colorI;
             }
         }
-        public Object()
+        public Entity()
         { 
         }
     }
@@ -69,7 +69,7 @@ namespace RPG_Adventure
             count = countI;
         }
     }
-    public class Door : Object
+    public class Door : Entity
     {
         public bool locked;
         public Door(int xI, int yI, string lookI, Color colorI, bool lockedI)
@@ -81,7 +81,7 @@ namespace RPG_Adventure
             locked = lockedI;
         }
     }
-    public class Chest : Object
+    public class Chest : Entity
     {
         public bool empty;
         public Chest(int xI, int yI, string lookI, Color colorI, bool emptyI)
@@ -93,7 +93,7 @@ namespace RPG_Adventure
             empty = emptyI;
         }
     }
-    public class Merchant : Object
+    public class Merchant : Entity
     {
         public List<Item> inventory;
         public int watchfullness;
