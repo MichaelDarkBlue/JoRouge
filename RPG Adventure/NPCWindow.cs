@@ -17,6 +17,7 @@ namespace RPG_Adventure
         private Player player;
         private TextBox messageBox;
         private int lvlmod;
+        private Quest quest = new Quest("", "", 0, "", 0, 0, 0);
         public NPCWindow(NPC npci, Player playeri, List<Item> inventoryi, TextBox messageBoxi, int lvlmodI)
         {
             InitializeComponent();
@@ -32,10 +33,33 @@ namespace RPG_Adventure
         {
             if (npc.quest)
             {
-                ;
+                Quest.randomQuest(quest, lvlmod);
+                quest.npcname = npc.name;
+                if (quest.type == "Kill")
+                {
+                    textBox.Text = npc.name + " the " + npc.type + ": \"I have an urgent quest for you. " + quest.objective +"'s have been attacking our town we need you to kill " + quest.amount + " of them to teach them a lesson.\" If you complete this quest you will recieve " + quest.rgold + " gold and " + quest.rreputation + " repuation.";
+                }
+                npc.quest = false;
             }
         }
-        public void randomtalk()
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (quest != null)
+            {
+                player.quests.Add(quest);
+                textBox.Text = npc.name + " the " + npc.type + ": \"Thankyou for accepting this great quest.\"";
+            }
+            quest = null;
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (quest != null)
+            {
+                textBox.Text = npc.name + " the " + npc.type + ": \"Hopefully someone else will come along to help us.\"";
+            }
+            quest = null;
+        }
+        private void randomtalk()
         {
             Random r = new Random();
             int random = r.Next(1, 5 + 1);

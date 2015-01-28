@@ -45,6 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Creature.cs" />
+    <Compile Include="Current Quests.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Current Quests.Designer.cs">
+      <DependentUpon>Current Quests.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +86,9 @@
     <Compile Include="SkillPanel.Designer.cs">
       <DependentUpon>SkillPanel.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Current Quests.resx">
+      <DependentUpon>Current Quests.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

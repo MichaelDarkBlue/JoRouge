@@ -30,6 +30,7 @@ namespace RPG_Adventure
         public int theivery;
         public int creaturesKilled;
         public int itemsBought;
+        public List<Quest> quests;
         public Player() : base()
         {
         }

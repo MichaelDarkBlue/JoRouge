@@ -36,6 +36,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.outputBox = new System.Windows.Forms.RichTextBox();
+            this.button6 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -122,11 +123,22 @@
             this.outputBox.Text = "";
             this.outputBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.outputBox_KeyUp);
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(491, 353);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(143, 44);
+            this.button6.TabIndex = 11;
+            this.button6.Text = "Quests";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 401);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.outputBox);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
@@ -152,6 +164,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.RichTextBox outputBox;
+        private System.Windows.Forms.Button button6;
     }
 }
 

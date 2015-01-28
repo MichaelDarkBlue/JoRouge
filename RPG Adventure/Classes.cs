@@ -123,7 +123,8 @@ namespace RPG_Adventure
         public string npcname;
         public int rgold;
         public int rreputation;
-        public Quest(string typeI, string objectiveI, int amountI, string npcnameI, int rgoldI, int rreputationI)
+        public int sofar;
+        public Quest(string typeI, string objectiveI, int amountI, string npcnameI, int rgoldI, int rreputationI, int sofarI)
         {
             type = typeI;
             objective = objectiveI;
@@ -131,9 +132,12 @@ namespace RPG_Adventure
             npcname = npcnameI;
             rgold = rgoldI;
             rreputation = rreputationI;
+            sofar = sofarI;
         }
         public static Quest randomQuest(Quest rQuest, int lvlmod)
         {
+            Random r = new Random();
+            rQuest = new Quest("Kill", "Orc", 3, "", 5, 2, 0);
             return rQuest;
         }
     }
