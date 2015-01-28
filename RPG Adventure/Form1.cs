@@ -881,7 +881,7 @@ namespace RPG_Adventure
                 {
                     if (player.x == npcs[i].x & player.y == npcs[i].y)
                     {
-                        NPCWindow mer = new NPCWindow(npcs[i], player, inventory, messageBox);
+                        NPCWindow mer = new NPCWindow(npcs[i], player, inventory, messageBox, lvlmod);
                         mer.Show();
                     }
                 }
