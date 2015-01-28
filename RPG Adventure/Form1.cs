@@ -19,7 +19,6 @@ namespace RPG_Adventure
         private List<Door> doors = new List<Door>();
         private List<Chest> chests = new List<Chest>();
         private Player player = new Player();
-        private List<Item> inventory = new List<Item>();
         private List<Item> merchantI = new List<Item>();
         private Entity downstairs = new Entity(0, 0, ">", Color.LightGray);
         private Entity upstairs = new Entity(0, 0, "<", Color.LightGray);
@@ -61,7 +60,7 @@ namespace RPG_Adventure
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            Inventory inv = new Inventory(inventory, player);
+            Inventory inv = new Inventory(player);
             inv.Show();
             game(0);
         }
@@ -80,7 +79,7 @@ namespace RPG_Adventure
             //Set to None
             if (firstTime)
             {
-                inventory = new List<Item>();
+                player.inventory = new List<Item>();
             }
             trees = new List<Entity>();
             doors = new List<Door>();
@@ -470,7 +469,7 @@ namespace RPG_Adventure
             //Player Setup
             if (firstTime)
             {
-                inventory.Add(new Item("Bread", 0, 0, 1, 0, true, 1, 2, false, "Hand", true, "o", 0, 0));
+                player.inventory.Add(new Item("Bread", 0, 0, 1, 0, true, 1, 2, false, "Hand", true, "o", 0, 0));
                 player.health = 8;
                 player.maxhealth = 8;
                 player.damage = 1;
@@ -817,7 +816,7 @@ namespace RPG_Adventure
         public void game(int keypressed)
         {
             Player.playerMovement(player, keypressed);
-            Player.playerRangedAttack(creatures, player, arrow, walls, width, height, messageBox, keypressed, inventory);
+            Player.playerRangedAttack(creatures, player, arrow, walls, width, height, messageBox, keypressed);
             //Player Health Managment
             if (player.health > player.maxhealth)
             {
@@ -839,7 +838,7 @@ namespace RPG_Adventure
             {
                 if (creatures[i].x == player.x & creatures[i].y == player.y)
                 {
-                    Player.playerMeleeAttack(creatures[i], player, messageBox, inventory);
+                    Player.playerMeleeAttack(creatures[i], player, messageBox);
                     break;
                 }
             }
@@ -868,7 +867,7 @@ namespace RPG_Adventure
                 {
                     if (player.x == merchants[i].x & player.y == merchants[i].y)
                     {
-                        MerchantWindow mer = new MerchantWindow(merchants[i], inventory, player, messageBox);
+                        MerchantWindow mer = new MerchantWindow(merchants[i], player, messageBox);
                         mer.Show();
                     }
                     else if (Application.OpenForms.OfType<MerchantWindow>().Any() & !merchants.Exists(x => x.x == player.x & x.y == player.y))
@@ -881,7 +880,7 @@ namespace RPG_Adventure
                 {
                     if (player.x == npcs[i].x & player.y == npcs[i].y)
                     {
-                        NPCWindow mer = new NPCWindow(npcs[i], player, inventory, messageBox);
+                        NPCWindow mer = new NPCWindow(npcs[i], player, messageBox);
                         mer.Show();
                     }
                 }
@@ -889,7 +888,7 @@ namespace RPG_Adventure
             //69 = e
             if (keypressed == 69)
             {
-                Inventory inv = new Inventory(inventory, player);
+                Inventory inv = new Inventory(player);
                 inv.Show();
             }
             //Player Health Don't Go Negative
@@ -1058,7 +1057,7 @@ namespace RPG_Adventure
                         {
                             Item rItem = randomItem(rItem = new Item("", 0, 0, 0, 0, false, 1, 0, false, "", false, "", 0, 0));
                             itemName = rItem.name;
-                            inventory.Add(rItem);
+                            player.inventory.Add(rItem);
                         }
                         if (d == 6)
                         {
@@ -1084,12 +1083,12 @@ namespace RPG_Adventure
                 {
                     if (doors[i].locked == true)
                     {
-                        Item key = inventory.Find(x => x.name.Contains("Key"));
+                        Item key = player.inventory.Find(x => x.name.Contains("Key"));
                         if (key != null)
                         {
                             doors[i].locked = false;
                             doors[i].look = "O";
-                            inventory.Remove(key);
+                            player.inventory.Remove(key);
                             messageBox.Text = "You unlocked the door." + Environment.NewLine + messageBox.Text;
                         }
                         else

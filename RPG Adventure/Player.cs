@@ -30,7 +30,9 @@ namespace RPG_Adventure
         public int theivery;
         public int creaturesKilled;
         public int itemsBought;
-        public Player() : base()
+        public List<Item> inventory = new List<Item>();
+        public Player()
+            : base()
         {
         }
         public static void playerMovement(Player player, int keypressed)
@@ -72,7 +74,7 @@ namespace RPG_Adventure
                 player.y--;
             }
         }
-        public static void playerMeleeAttack(Creature creature, Player player, System.Windows.Forms.TextBox messageBox, List<Item> inventory)
+        public static void playerMeleeAttack(Creature creature, Player player, System.Windows.Forms.TextBox messageBox)
         {
             if (creature.x == player.x & creature.y == player.y)
             {
@@ -127,19 +129,19 @@ namespace RPG_Adventure
                                 build += " and ";
                             }
                             build += "a " + creature.drop.name;
-                            if ((inventory.Exists(x => x == creature.drop & x.stackable == true)))
+                            if ((player.inventory.Exists(x => x == creature.drop & x.stackable == true)))
                             {
-                                for (int i = 0; i < inventory.Count; i++)
+                                for (int i = 0; i < player.inventory.Count; i++)
                                 {
-                                    if (inventory[i] == creature.drop)
+                                    if (player.inventory[i] == creature.drop)
                                     {
-                                        inventory[i].count++;
+                                        player.inventory[i].count++;
                                     }
                                 }
                             }
                             else
                             {
-                                inventory.Add(creature.drop);
+                                player.inventory.Add(creature.drop);
                             }
                         }
                     }
@@ -149,22 +151,22 @@ namespace RPG_Adventure
                 }
             }
         }//End of playerAttack
-        public static void playerRangedAttack(List<Creature> creatures, Player player, Entity arrow, List<Entity> walls, int width, int height, System.Windows.Forms.TextBox messageBox, int keypressed, List<Item> inventory)
+        public static void playerRangedAttack(List<Creature> creatures, Player player, Entity arrow, List<Entity> walls, int width, int height, System.Windows.Forms.TextBox messageBox, int keypressed)
         {
             //Player Ranged Weapons
             if (player.ranged == true)
             {
-                for (int i = 0; i < inventory.Count; i++)
+                for (int i = 0; i < player.inventory.Count; i++)
                 {
-                    if (inventory[i].name.Contains("Arrow"))
+                    if (player.inventory[i].name.Contains("Arrow"))
                     {
-                        if (inventory[i].count > 1)
+                        if (player.inventory[i].count > 1)
                         {
-                            inventory[i].count--;
+                            player.inventory[i].count--;
                         }
                         else
                         {
-                            inventory.Remove(inventory[i]);
+                            player.inventory.Remove(player.inventory[i]);
                         }
                         goto Done;
                     }
@@ -178,7 +180,7 @@ namespace RPG_Adventure
                 bool hitc = false;
                 if (keypressed == 104)
                 {
-                    if (inventory.Exists(x => x.name.Contains("Arrow")))
+                    if (player.inventory.Exists(x => x.name.Contains("Arrow")))
                     {
                         arrow.y = player.y;
                         arrow.x = player.x;
@@ -227,7 +229,7 @@ namespace RPG_Adventure
                 }
                 if (keypressed == 103)
                 {
-                    if (inventory.Exists(x => x.name.Contains("Arrow")))
+                    if (player.inventory.Exists(x => x.name.Contains("Arrow")))
                     {
                         arrow.x = player.x;
                         arrow.y = player.y;
@@ -277,7 +279,7 @@ namespace RPG_Adventure
                 }
                 if (keypressed == 105)
                 {
-                    if (inventory.Exists(x => x.name.Contains("Arrow")))
+                    if (player.inventory.Exists(x => x.name.Contains("Arrow")))
                     {
                         arrow.x = player.x;
                         arrow.y = player.y;
@@ -327,7 +329,7 @@ namespace RPG_Adventure
                 }
                 if (keypressed == 98)
                 {
-                    if (inventory.Exists(x => x.name.Contains("Arrow")))
+                    if (player.inventory.Exists(x => x.name.Contains("Arrow")))
                     {
                         arrow.y = player.y;
                         arrow.x = player.x;
@@ -376,7 +378,7 @@ namespace RPG_Adventure
                 }
                 if (keypressed == 100)
                 {
-                    if (inventory.Exists(x => x.name.Contains("Arrow")))
+                    if (player.inventory.Exists(x => x.name.Contains("Arrow")))
                     {
                         arrow.y = player.y;
                         arrow.x = player.x;
@@ -425,7 +427,7 @@ namespace RPG_Adventure
                 }
                 if (keypressed == 102)
                 {
-                    if (inventory.Exists(x => x.name.Contains("Arrow")))
+                    if (player.inventory.Exists(x => x.name.Contains("Arrow")))
                     {
                         arrow.x = player.x;
                         arrow.y = player.y;
@@ -474,7 +476,7 @@ namespace RPG_Adventure
                 }
                 if (keypressed == 97)
                 {
-                    if (inventory.Exists(x => x.name.Contains("Arrow")))
+                    if (player.inventory.Exists(x => x.name.Contains("Arrow")))
                     {
                         arrow.x = player.x;
                         arrow.y = player.y;
@@ -524,7 +526,7 @@ namespace RPG_Adventure
                 }
                 if (keypressed == 99)
                 {
-                    if (inventory.Exists(x => x.name.Contains("Arrow")))
+                    if (player.inventory.Exists(x => x.name.Contains("Arrow")))
                     {
                         arrow.x = player.x;
                         arrow.y = player.y;
@@ -625,7 +627,7 @@ namespace RPG_Adventure
                                         build += " and ";
                                     }
                                     build += "a " + creatures[creaturehit].drop.name;
-                                    inventory.Add(creatures[creaturehit].drop);
+                                    player.inventory.Add(creatures[creaturehit].drop);
                                 }
                             }
                             build += ".";

@@ -16,7 +16,7 @@ namespace RPG_Adventure
         private NPC npc;
         private Player player;
         private System.Windows.Forms.TextBox messageBox;
-        public NPCWindow(NPC npc, Player player, List<Item> inventory, System.Windows.Forms.TextBox messageBox)
+        public NPCWindow(NPC npc, Player player, System.Windows.Forms.TextBox messageBox)
         {
             InitializeComponent();
         }

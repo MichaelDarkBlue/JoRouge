@@ -17,10 +17,10 @@ namespace RPG_Adventure
         private Merchant mer;
         private Player p;
         private System.Windows.Forms.TextBox messageBox;
-        public MerchantWindow(Merchant inM, List<Item> inI, Player inP, System.Windows.Forms.TextBox inmessageBox)
+        public MerchantWindow(Merchant inM, Player inP, System.Windows.Forms.TextBox inmessageBox)
         {
             InitializeComponent();
-            inv = inI;
+            inv = inP.inventory;
             mer = inM;
             p = inP;
             messageBox = inmessageBox;

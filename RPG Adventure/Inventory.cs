@@ -16,10 +16,10 @@ namespace RPG_Adventure
         private List<Item> inv;
         private Player p;
         private Form1 mainform = new Form1();
-        public Inventory(List<Item> inI, Player inP)
+        public Inventory(Player inP)
         {
             InitializeComponent();
-            inv = inI;
+            inv = inP.inventory;
             p = inP;
             draw(0);
             //inv.Add(new Item("Block"));
