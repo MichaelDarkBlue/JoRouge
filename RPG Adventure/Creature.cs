@@ -120,7 +120,7 @@ namespace RPG_Adventure
                 }
                 for (int t = 0; t < walls.Count; t++)
                 {
-                    if (walls[i].x == creature.x & walls[i].y == creature.y)
+                    if (walls[t].x == creature.x & walls[t].y == creature.y)
                     {
                         creature.x = creature.lastX;
                         creature.y = creature.lastY;
