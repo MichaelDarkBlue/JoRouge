@@ -74,7 +74,7 @@ namespace RPG_Adventure
                 player.y--;
             }
         }
-        public static void playerMeleeAttack(Creature creature, Player player, System.Windows.Forms.TextBox messageBox, Random r)
+        public static void playerMeleeAttack(Creature creature, Player player, System.Windows.Forms.TextBox messageBox, Random r, List<Quest> quests)
         {
             if (creature.x == player.x & creature.y == player.y)
             {
@@ -99,6 +99,17 @@ namespace RPG_Adventure
                 messageBox.Text = "You hit " + creature.name + " for " + random + " damage!" + Environment.NewLine + messageBox.Text;
                 if (creature.health <= 0)
                 {
+                    //Quests
+                    for (int i = 0; i < player.quests.Count; i++)
+                    {
+                        if (player.quests[i].type == "Kill" & creature.name == player.quests[i].objective)
+                        {
+                            if (player.quests[i].sofar > 0)
+                            {
+                                player.quests[i].sofar++;
+                            }
+                        }
+                    }
                     player.creaturesKilled++;
                     string build;
                     build = "";
@@ -150,7 +161,7 @@ namespace RPG_Adventure
                 }
             }
         }//End of playerAttack
-        public static void playerRangedAttack(List<Creature> creatures, Player player, Entity arrow, List<Entity> walls, int width, int height, System.Windows.Forms.TextBox messageBox, int keypressed, Random r)
+        public static void playerRangedAttack(List<Creature> creatures, Player player, Entity arrow, List<Entity> walls, int width, int height, System.Windows.Forms.TextBox messageBox, int keypressed, Random r, List<Quest> quests)
         {
             //Player Ranged Weapons
             if (player.ranged == true)
@@ -596,6 +607,17 @@ namespace RPG_Adventure
                         messageBox.Text = "You shot " + creatures[creaturehit].name + " for " + random + " damage!" + Environment.NewLine + messageBox.Text;
                         if (creatures[creaturehit].health <= 0)
                         {
+                            //Quests
+                            for (int i = 0; i < player.quests.Count; i++)
+                            {
+                                if (player.quests[i].type == "Kill" & creatures[creaturehit].name == player.quests[i].objective)
+                                {
+                                    if (player.quests[i].sofar > 0)
+                                    {
+                                        player.quests[i].sofar++;
+                                    }
+                                }
+                            }
                             player.creaturesKilled++;
                             string build;
                             build = "";

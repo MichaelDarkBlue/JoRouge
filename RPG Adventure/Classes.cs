@@ -123,8 +123,9 @@ namespace RPG_Adventure
         public string npcname;
         public int rgold;
         public int rreputation;
+        public int rxp;
         public int sofar;
-        public Quest(string typeI, string objectiveI, int amountI, string npcnameI, int rgoldI, int rreputationI, int sofarI)
+        public Quest(string typeI, string objectiveI, int amountI, string npcnameI, int rgoldI, int rreputationI, int rxpI, int sofarI)
         {
             type = typeI;
             objective = objectiveI;
@@ -133,11 +134,25 @@ namespace RPG_Adventure
             rgold = rgoldI;
             rreputation = rreputationI;
             sofar = sofarI;
+            rxp = rxpI;
         }
-        public static Quest randomQuest(Quest rQuest, int lvlmod)
+        public static Quest randomQuest(out Quest rQuest, int lvlmod, Random r)
         {
-            Random r = new Random();
-            rQuest = new Quest("Kill", "Orc", 3, "", 5, 2, 0);
+            int random = r.Next(1, 3 + 1);
+            string objective = "";
+            if (random == 1)
+            {
+                objective = "Orc";
+            }
+            else if (random == 2)
+            {
+                objective = "Orc Archer";
+            }
+            else if (random == 3)
+            {
+                objective = "Lynx";
+            }
+            rQuest = new Quest("Kill", objective, r.Next(1, 15), "", r.Next(8 + lvlmod, 14 + lvlmod), r.Next(1, 5), r.Next(15 + lvlmod, 30 + lvlmod), 0);
             return rQuest;
         }
     }

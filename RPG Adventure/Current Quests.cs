@@ -26,9 +26,9 @@ namespace RPG_Adventure
 			{
                 if (player.quests[i].type == "Kill")
                 {
-                    textBox1.Text += "Kill the " + player.quests[i].objective + "'s: Kill " + player.quests[i].amount + " " + player.quests[i].npcname + "'s and recieve " + player.quests[i].rgold + " gold and " + player.quests[i].rreputation + ".";
+                    textBox1.Text += "Kill the " + player.quests[i].objective + "'s: Kill " + player.quests[i].amount + " " + player.quests[i].objective + "'s and recieve " + player.quests[i].rgold + " gold, " + player.quests[i].rreputation + " reputation, and " + player.quests[i].rxp + " xp.";
                     textBox1.Text += Environment.NewLine;
-                    textBox1.Text += "Turn in this quest to " + player.quests[i].npcname + " to recieve your reward.";
+                    textBox1.Text += "Turn in this quest in to " + player.quests[i].npcname + " to recieve your reward. You have to kill " + (player.quests[i].amount - player.quests[i].sofar) + " more " + player.quests[i].objective + "'s to complete the quest.";
                     textBox1.Text += Environment.NewLine;
                 }
 			}

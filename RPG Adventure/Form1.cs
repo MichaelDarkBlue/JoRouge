@@ -85,6 +85,7 @@ namespace RPG_Adventure
             if (firstTime)
             {
                 player.inventory = new List<Item>();
+                inDungeon = false;
             }
             trees = new List<Entity>();
             doors = new List<Door>();
@@ -126,7 +127,7 @@ namespace RPG_Adventure
             {
                 town = true;
             }
-            if (r.Next(1, 8 + 1) == 1)
+            if (r.Next(1, 6 + 1) == 1)
             {
                 town = true;
             }
@@ -409,7 +410,7 @@ namespace RPG_Adventure
                     }
                 }
                 bool quest;
-                if (r.Next(1, 4 + 1) == 1)
+                if (r.Next(1, 6 + 1) == 1)
                 {
                     quest = true;
                 }
@@ -417,10 +418,33 @@ namespace RPG_Adventure
                 {
                     quest = false;
                 }
+                //quest = true;
                 string name = randomName(name = "");
                 string type = "";
                 NPC.randomType(type, r);
                 npcs.Add(new NPC(placeX, placeY, placeX, placeY, "☺", Color.Wheat, name, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 1 + lvlmod), 1, r.Next(0, 2 + lvlmod), NPC.randomType(name, r), false, r.Next(1, 8 + 1), r.Next(10, 100 + 1), quest));
+            }
+            random = 0;
+            //Quest NPCS
+            if (town & player.quests != null)
+            {
+                for (int i = 0; i < player.quests.Count; i++)
+                {
+                RetryNPC:
+                    placeX = r.Next(0, width + 1);
+                    placeY = r.Next(0, height + 1);
+                    for (int t = 0; t < walls.Count; t++)
+                    {
+                        if (placeX == walls[t].x & placeY == walls[t].y)
+                        {
+                            goto RetryNPC;
+                        }
+                    }
+                    string name = player.quests[i].npcname;
+                    string type = "";
+                    NPC.randomType(type, r);
+                    npcs.Add(new NPC(placeX, placeY, placeX, placeY, "☺", Color.Wheat, name, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 1 + lvlmod), 1, r.Next(0, 2 + lvlmod), NPC.randomType(name, r), false, r.Next(1, 8 + 1), r.Next(10, 100 + 1), false));
+                }
             }
             //Tree Placement
             random = r.Next(40, 80 + 1);
@@ -822,7 +846,7 @@ namespace RPG_Adventure
         public void game(int keypressed)
         {
             Player.playerMovement(player, keypressed);
-            Player.playerRangedAttack(creatures, player, arrow, walls, width, height, messageBox, keypressed, r);
+            Player.playerRangedAttack(creatures, player, arrow, walls, width, height, messageBox, keypressed, r, player.quests);
             //Player Health Managment
             if (player.health > player.maxhealth)
             {
@@ -844,7 +868,7 @@ namespace RPG_Adventure
             {
                 if (creatures[i].x == player.x & creatures[i].y == player.y)
                 {
-                    Player.playerMeleeAttack(creatures[i], player, messageBox, r);
+                    Player.playerMeleeAttack(creatures[i], player, messageBox, r, player.quests);
                     break;
                 }
             }
