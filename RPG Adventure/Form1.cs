@@ -419,8 +419,8 @@ namespace RPG_Adventure
                 }
                 string name = randomName(name = "");
                 string type = "";
-                NPC.randomType(type);
-                npcs.Add(new NPC(placeX, placeY, placeX, placeY, "☺", Color.Wheat, name, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 1 + lvlmod), 1, r.Next(0, 2 + lvlmod), NPC.randomType(name), false, r.Next(1, 8 + 1), r.Next(10, 100 + 1), quest));
+                NPC.randomType(type, r);
+                npcs.Add(new NPC(placeX, placeY, placeX, placeY, "☺", Color.Wheat, name, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 1 + lvlmod), 1, r.Next(0, 2 + lvlmod), NPC.randomType(name, r), false, r.Next(1, 8 + 1), r.Next(10, 100 + 1), quest));
             }
             //Tree Placement
             random = r.Next(40, 80 + 1);
@@ -822,7 +822,7 @@ namespace RPG_Adventure
         public void game(int keypressed)
         {
             Player.playerMovement(player, keypressed);
-            Player.playerRangedAttack(creatures, player, arrow, walls, width, height, messageBox, keypressed);
+            Player.playerRangedAttack(creatures, player, arrow, walls, width, height, messageBox, keypressed, r);
             //Player Health Managment
             if (player.health > player.maxhealth)
             {
@@ -834,9 +834,9 @@ namespace RPG_Adventure
                 for (int t = 0; t < npcs.Count; t++)
                 {
                     Creature blank = new Creature("", "", Color.Black, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, null);
-                    NPC.npcMovement(npcs[t], walls, doors);
-                    NPC.npcMeleeAttack(npcs[t], blank, player, messageBox);
-                    NPC.npcRangedAttack(npcs[t], creatures, player, arrow, walls, width, height, messageBox);
+                    NPC.npcMovement(npcs[t], walls, doors, r);
+                    NPC.npcMeleeAttack(npcs[t], blank, player, messageBox, r);
+                    NPC.npcRangedAttack(npcs[t], creatures, player, arrow, walls, width, height, messageBox, r);
                     NPC.npcDead(npcs[t]);
                 }
             }
@@ -844,7 +844,7 @@ namespace RPG_Adventure
             {
                 if (creatures[i].x == player.x & creatures[i].y == player.y)
                 {
-                    Player.playerMeleeAttack(creatures[i], player, messageBox);
+                    Player.playerMeleeAttack(creatures[i], player, messageBox, r);
                     break;
                 }
             }
@@ -854,15 +854,15 @@ namespace RPG_Adventure
                 //Npcs
                 for (int t = 0; t < npcs.Count; t++)
                 {
-                    NPC.npcMovement(npcs[t], walls, doors);
-                    NPC.npcMeleeAttack(npcs[t], creatures[i], player, messageBox);
-                    NPC.npcRangedAttack(npcs[t], creatures, player, arrow, walls, width, height, messageBox);
+                    NPC.npcMovement(npcs[t], walls, doors, r);
+                    NPC.npcMeleeAttack(npcs[t], creatures[i], player, messageBox, r);
+                    NPC.npcRangedAttack(npcs[t], creatures, player, arrow, walls, width, height, messageBox, r);
                     NPC.npcDead(npcs[t]);
                 }
                 Creature.creatureDead(creatures[i]);
-                Creature.creatureMovement(creatures[i], player, npcs, walls, doors);
-                Creature.creatureRangedAttack(creatures[i], player, npcs, arrow, walls, width, height, messageBox);
-                Creature.creatureMeleeAttack(creatures[i], player, npcs, messageBox);
+                Creature.creatureMovement(creatures[i], player, npcs, walls, doors, r);
+                Creature.creatureRangedAttack(creatures[i], player, npcs, arrow, walls, width, height, messageBox, r);
+                Creature.creatureMeleeAttack(creatures[i], player, npcs, messageBox, r);
                 Creature.creatureDead(creatures[i]);
             }
             //84 = t

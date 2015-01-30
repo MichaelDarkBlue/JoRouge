@@ -45,15 +45,14 @@ namespace RPG_Adventure
             lastY = lastYI;
             speed = speedI;
         }
-        public static void creatureMovement(Creature creature, Player player, List<NPC> npcs, List<Entity> walls, List<Door> doors)
+        public static void creatureMovement(Creature creature, Player player, List<NPC> npcs, List<Entity> walls, List<Door> doors, Random r)
         {
-            Random r = new Random();
-            creature.lastX = creature.x;
-            creature.lastY = creature.y;
             int moveX = 0, moveY = 0;
             Creature.closestEnemy(creature, player, npcs, out moveX, out moveY);
             for (int i = 0; i < creature.speed; i++)
             {
+                creature.lastX = creature.x;
+                creature.lastY = creature.y;
                 if (creature.ai == "Default")
                 {
                     //Random Movement
@@ -140,12 +139,11 @@ namespace RPG_Adventure
                 }
             }
         }//End of creatureMovement
-        public static void creatureRangedAttack(Creature creature, Player player, List<NPC> npcs, Entity arrow, List<Entity> walls, int width, int height, System.Windows.Forms.TextBox messageBox)
+        public static void creatureRangedAttack(Creature creature, Player player, List<NPC> npcs, Entity arrow, List<Entity> walls, int width, int height, System.Windows.Forms.TextBox messageBox, Random r)
         {
             //Ranged Attack
             if (creature.range > 0)
             {
-                Random r = new Random();
                 int random;
                 int range = creature.range;
                 bool hit = false;
@@ -522,37 +520,34 @@ namespace RPG_Adventure
                     }
                     range--;
                 }
-                if (hitnpc == true)
+                if (hitp == true)
                 {
-                    if (hitp == true)
+                    if (r.Next(0, 100 + 1) <= creature.rangedA)
                     {
-                        if (r.Next(0, 100 + 1) <= creature.rangedA)
+                        random = r.Next(1, creature.damage + 1);
+                        if (player.defence > random)
                         {
-                            random = r.Next(1, creature.damage + 1);
-                            if (player.defence > random)
+                            if (r.Next(0, player.defence) + 1 > random)
                             {
-                                if (r.Next(0, player.defence) + 1 > random)
-                                {
-                                    random = 0;
-                                }
+                                random = 0;
                             }
-                            else
-                            {
-                                random -= player.defence;
-                                if (random <= 0)
-                                {
-                                    random = 1;
-                                }
-                            }
-                            player.health -= random;
-                            messageBox.Text = creature.name + " shot you for " + random + " damage!" + Environment.NewLine + messageBox.Text;
                         }
                         else
                         {
-                            messageBox.Text = creature.name + "'s arrow missed you!" + Environment.NewLine + messageBox.Text;
+                            random -= player.defence;
+                            if (random <= 0)
+                            {
+                                random = 1;
+                            }
                         }
+                        player.health -= random;
+                        messageBox.Text = creature.name + " shot you for " + random + " damage!" + Environment.NewLine + messageBox.Text;
                     }
-                    else if (hitnpc == true)
+                    else
+                    {
+                        messageBox.Text = creature.name + "'s arrow missed you!" + Environment.NewLine + messageBox.Text;
+                    }
+                    if (hitnpc == true)
                     {
                         if (r.Next(0, 100 + 1) <= creature.rangedA)
                         {
@@ -578,11 +573,10 @@ namespace RPG_Adventure
                 }
             }
         }//End of creatureRangedAttack
-        public static void creatureMeleeAttack(Creature creature, Player player, List<NPC> npcs, System.Windows.Forms.TextBox messageBox)
+        public static void creatureMeleeAttack(Creature creature, Player player, List<NPC> npcs, System.Windows.Forms.TextBox messageBox, Random r)
         {
             if (creature.range <= 0)
             {
-                Random r = new Random();
                 int random;
                 //Melee Attack against player
                 if (player.x == creature.x & player.y == creature.y)

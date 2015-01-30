@@ -74,11 +74,10 @@ namespace RPG_Adventure
                 player.y--;
             }
         }
-        public static void playerMeleeAttack(Creature creature, Player player, System.Windows.Forms.TextBox messageBox)
+        public static void playerMeleeAttack(Creature creature, Player player, System.Windows.Forms.TextBox messageBox, Random r)
         {
             if (creature.x == player.x & creature.y == player.y)
             {
-                Random r = new Random();
                 int random;
                 random = r.Next(1, player.damage + 1);
                 if (creature.defence > random)
@@ -151,7 +150,7 @@ namespace RPG_Adventure
                 }
             }
         }//End of playerAttack
-        public static void playerRangedAttack(List<Creature> creatures, Player player, Entity arrow, List<Entity> walls, int width, int height, System.Windows.Forms.TextBox messageBox, int keypressed)
+        public static void playerRangedAttack(List<Creature> creatures, Player player, Entity arrow, List<Entity> walls, int width, int height, System.Windows.Forms.TextBox messageBox, int keypressed, Random r)
         {
             //Player Ranged Weapons
             if (player.ranged == true)
@@ -173,7 +172,6 @@ namespace RPG_Adventure
                 }
             Done:
                 int random;
-                Random r = new Random();
                 int creaturehit = 0;
                 int range = player.rangedR;
                 bool hit = false;

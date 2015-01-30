@@ -41,9 +41,8 @@ namespace RPG_Adventure
             lastY = lastYI;
             speed = speedI;
         }
-        public static string randomType(string type)
+        public static string randomType(string type, Random r)
         {
-            Random r = new Random();
             if (r.Next(1, 15 + 1) == 1)
             {
                 type = "King";
@@ -66,9 +65,8 @@ namespace RPG_Adventure
             }
             return type;
         }//End of randomType
-        public static void npcMovement(NPC npc, List<Entity> walls, List<Door> doors)
+        public static void npcMovement(NPC npc, List<Entity> walls, List<Door> doors, Random r)
         {
-            Random r = new Random();
             for (int i = 0; i < npc.speed; i++)
             {
                 if (r.Next(1, 3 + 1) == 1)
@@ -105,12 +103,11 @@ namespace RPG_Adventure
                 } 
             }
         }//End of npcMovement
-        public static void npcRangedAttack(NPC npc,List<Creature> creatures, Player player, Entity arrow, List<Entity> walls, int width, int height, System.Windows.Forms.TextBox messageBox)
+        public static void npcRangedAttack(NPC npc,List<Creature> creatures, Player player, Entity arrow, List<Entity> walls, int width, int height, System.Windows.Forms.TextBox messageBox, Random r)
         {
             //Ranged Attack
             if (npc.range > 0)
             {
-                Random r = new Random();
                 int random;
                 int range = npc.range;
                 bool hit = false;
@@ -487,67 +484,63 @@ namespace RPG_Adventure
                     }
                     range--;
                 }
-                if (hitc == true)
+                if (player.reputation < 0 & hitp == true)
                 {
-                    if (player.reputation < 0 & hitp == true)
+                    if (r.Next(0, 100 + 1) <= npc.rangedA)
                     {
-                        if (r.Next(0, 100 + 1) <= npc.rangedA)
+                        random = r.Next(1, npc.damage + 1);
+                        if (player.defence > random)
                         {
-                            random = r.Next(1, npc.damage + 1);
-                            if (player.defence > random)
+                            if (r.Next(0, player.defence) + 1 > random)
                             {
-                                if (r.Next(0, player.defence) + 1 > random)
-                                {
-                                    random = 0;
-                                }
+                                random = 0;
                             }
-                            else
-                            {
-                                random -= player.defence;
-                                if (random <= 0)
-                                {
-                                    random = 1;
-                                }
-                            }
-                            player.health -= random;
-                            messageBox.Text = npc.name + " the " + npc.type + " shot you for " + random + " damage!" + Environment.NewLine + messageBox.Text;
                         }
                         else
                         {
-                            messageBox.Text = npc.name + " the " + npc.type + "'s arrow missed you!" + Environment.NewLine + messageBox.Text;
+                            random -= player.defence;
+                            if (random <= 0)
+                            {
+                                random = 1;
+                            }
                         }
+                        player.health -= random;
+                        messageBox.Text = npc.name + " the " + npc.type + " shot you for " + random + " damage!" + Environment.NewLine + messageBox.Text;
                     }
-                    else if (hitc == true)
+                    else
                     {
-                        if (r.Next(0, 100 + 1) <= npc.rangedA)
+                        messageBox.Text = npc.name + " the " + npc.type + "'s arrow missed you!" + Environment.NewLine + messageBox.Text;
+                    }
+                }
+                if (hitc == true)
+                {
+                    if (r.Next(0, 100 + 1) <= npc.rangedA)
+                    {
+                        random = r.Next(1, npc.damage + 1);
+                        if (creatures[creaturehit].defence > random)
                         {
-                            random = r.Next(1, npc.damage + 1);
-                            if (creatures[creaturehit].defence > random)
+                            if (r.Next(0, creatures[creaturehit].defence) + 1 > random)
                             {
-                                if (r.Next(0, creatures[creaturehit].defence) + 1 > random)
-                                {
-                                    random = 0;
-                                }
+                                random = 0;
                             }
-                            else
-                            {
-                                random -= creatures[creaturehit].defence;
-                                if (random <= 0)
-                                {
-                                    random = 1;
-                                }
-                            }
-                            creatures[creaturehit].health -= random;
                         }
+                        else
+                        {
+                            random -= creatures[creaturehit].defence;
+                            if (random <= 0)
+                            {
+                                random = 1;
+                            }
+                        }
+                        creatures[creaturehit].health -= random;
                     }
                 }
             }
         }//End of npcRangedAttack
-        public static void npcMeleeAttack(NPC npc, Creature creature, Player player, System.Windows.Forms.TextBox messageBox)
+        public static void npcMeleeAttack(NPC npc, Creature creature, Player player, System.Windows.Forms.TextBox messageBox, Random r)
         {
             if (npc.range <= 0)
             {
-                Random r = new Random();
                 int random;
                 //Melee Attack against player
                 if (npc.hostile == true & player.reputation < 0)
