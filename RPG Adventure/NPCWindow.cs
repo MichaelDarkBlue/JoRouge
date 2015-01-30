@@ -38,7 +38,7 @@ namespace RPG_Adventure
                 quest.npcname = npc.name;
                 if (quest.type == "Kill")
                 {
-                    textBox.Text = npc.name + " the " + npc.type + ": \"I have an urgent quest for you. " + quest.objective + "'s have been attacking our town we need you to kill " + quest.amount + " of them to teach them a lesson.\" If you complete this quest you will recieve " + player.quests[i].rgold + " gold, " + player.quests[i].rreputation + " reputation, and " + player.quests[i].rxp + " xp.";
+                    textBox.Text = npc.name + " the " + npc.type + ": \"I have an urgent quest for you. " + quest.objective + "'s have been attacking our town we need you to kill " + quest.amount + " of them to teach them a lesson.\" If you complete this quest you will recieve " + quest.rgold + " gold, " + quest.rreputation + " reputation, and " + quest.rxp + " xp.";
                 }
                 npc.quest = false;
             }
