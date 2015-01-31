@@ -21,8 +21,9 @@ namespace RPG_Adventure
         public int range;
         public int rangedA;
         public int speed;
+        public int dexterity;
         public Item drop;
-        public Creature(string nameI, string lookI, Color colorI, int healthI, int damageI, int defenceI, int speedI, int xpI, int goldI, string aiI, int xI, int yI, int lastXI, int lastYI, int rangeI, int rangedAI, Item dropI = null)
+        public Creature(string nameI, string lookI, Color colorI, int healthI, int damageI, int defenceI, int speedI, int dexterityI, int xpI, int goldI, string aiI, int xI, int yI, int lastXI, int lastYI, int rangeI, int rangedAI, Item dropI = null)
             : base(xI, yI, lookI, colorI)
         {
             if (dropI != null)
@@ -44,6 +45,7 @@ namespace RPG_Adventure
             lastX = lastXI;
             lastY = lastYI;
             speed = speedI;
+            dexterity = dexterityI;
         }
         public static void creatureMovement(Creature creature, Player player, List<NPC> npcs, List<Entity> walls, List<Door> doors, Random r)
         {
@@ -524,6 +526,75 @@ namespace RPG_Adventure
                 {
                     if (r.Next(0, 100 + 1) <= creature.rangedA)
                     {
+                        if (r.Next(0, player.dexterity + 1) < creature.dexterity)
+                        {
+                            random = r.Next(1, creature.damage + 1);
+                            if (player.defence > random)
+                            {
+                                if (r.Next(0, player.defence) + 1 > random)
+                                {
+                                    random = 0;
+                                }
+                            }
+                            else
+                            {
+                                random -= player.defence;
+                                if (random <= 0)
+                                {
+                                    random = 1;
+                                }
+                            }
+                            player.health -= random;
+                            messageBox.Text = creature.name + " shot you for " + random + " damage!" + Environment.NewLine + messageBox.Text;
+                        }
+                        else
+                        {
+                            messageBox.Text = "You dodged " + creature.name + "'s ranged attack!" + Environment.NewLine + messageBox.Text;
+                        }
+                    }
+                    else
+                    {
+                        messageBox.Text = creature.name + "'s arrow missed you!" + Environment.NewLine + messageBox.Text;
+                    }
+                    if (hitnpc == true)
+                    {
+                        if (r.Next(0, 100 + 1) <= creature.rangedA)
+                        {
+                            if (r.Next(0, npcs[creaturehit].dexterity + 1) < creature.dexterity)
+                            {
+                                random = r.Next(1, creature.damage + 1);
+                                if (npcs[creaturehit].defence > random)
+                                {
+                                    if (r.Next(0, npcs[creaturehit].defence) + 1 > random)
+                                    {
+                                        random = 0;
+                                    }
+                                }
+                                else
+                                {
+                                    random -= npcs[creaturehit].defence;
+                                    if (random <= 0)
+                                    {
+                                        random = 1;
+                                    }
+                                }
+                                npcs[creaturehit].health -= random;
+                            }
+                        }
+                    }
+                }
+            }
+        }//End of creatureRangedAttack
+        public static void creatureMeleeAttack(Creature creature, Player player, List<NPC> npcs, System.Windows.Forms.TextBox messageBox, Random r)
+        {
+            if (creature.range <= 0)
+            {
+                int random;
+                //Melee Attack against player
+                if (player.x == creature.x & player.y == creature.y)
+                {
+                    if (r.Next(0, player.dexterity + 1) < creature.dexterity)
+                    {
                         random = r.Next(1, creature.damage + 1);
                         if (player.defence > random)
                         {
@@ -541,87 +612,38 @@ namespace RPG_Adventure
                             }
                         }
                         player.health -= random;
-                        messageBox.Text = creature.name + " shot you for " + random + " damage!" + Environment.NewLine + messageBox.Text;
+                        messageBox.Text = creature.name + " hit you for " + random + " damage!" + Environment.NewLine + messageBox.Text;
                     }
                     else
                     {
-                        messageBox.Text = creature.name + "'s arrow missed you!" + Environment.NewLine + messageBox.Text;
+                        messageBox.Text = "You dodged " + creature.name + "'s attack!" + Environment.NewLine + messageBox.Text;
                     }
-                    if (hitnpc == true)
-                    {
-                        if (r.Next(0, 100 + 1) <= creature.rangedA)
-                        {
-                            random = r.Next(1, creature.damage + 1);
-                            if (npcs[creaturehit].defence > random)
-                            {
-                                if (r.Next(0, npcs[creaturehit].defence) + 1 > random)
-                                {
-                                    random = 0;
-                                }
-                            }
-                            else
-                            {
-                                random -= npcs[creaturehit].defence;
-                                if (random <= 0)
-                                {
-                                    random = 1;
-                                }
-                            }
-                            npcs[creaturehit].health -= random;
-                        }
-                    }
-                }
-            }
-        }//End of creatureRangedAttack
-        public static void creatureMeleeAttack(Creature creature, Player player, List<NPC> npcs, System.Windows.Forms.TextBox messageBox, Random r)
-        {
-            if (creature.range <= 0)
-            {
-                int random;
-                //Melee Attack against player
-                if (player.x == creature.x & player.y == creature.y)
-                {
-                    random = r.Next(1, creature.damage + 1);
-                    if (player.defence > random)
-                    {
-                        if (r.Next(0, player.defence) + 1 > random)
-                        {
-                            random = 0;
-                        }
-                    }
-                    else
-                    {
-                        random -= player.defence;
-                        if (random <= 0)
-                        {
-                            random = 1;
-                        }
-                    }
-                    player.health -= random;
-                    messageBox.Text = creature.name + " hit you for " + random + " damage!" + Environment.NewLine + messageBox.Text;
                 }
                 //Melee Attack against npc
                 for (int i = 0; i < npcs.Count; i++)
                 {
                     if (npcs[i].x == creature.x & npcs[i].y == creature.y)
                     {
-                        random = r.Next(1, creature.damage + 1);
-                        if (npcs[i].defence > random)
+                        if (r.Next(0, npcs[i].dexterity + 1) < creature.dexterity)
                         {
-                            if (r.Next(0, npcs[i].defence) + 1 > random)
+                            random = r.Next(1, creature.damage + 1);
+                            if (npcs[i].defence > random)
                             {
-                                random = 0;
+                                if (r.Next(0, npcs[i].defence) + 1 > random)
+                                {
+                                    random = 0;
+                                }
                             }
-                        }
-                        else
-                        {
-                            random -= npcs[i].defence;
-                            if (random <= 0)
+                            else
                             {
-                                random = 1;
+                                random -= npcs[i].defence;
+                                if (random <= 0)
+                                {
+                                    random = 1;
+                                }
                             }
+                            npcs[i].health -= random;
                         }
-                        npcs[i].health -= random;
                     }
                 }
             }
@@ -654,7 +676,7 @@ namespace RPG_Adventure
             int random = r.Next(1, 4 + 1);
             if (random == 1)
             {
-                rCreature = new Creature("Lynx", "l", Color.Tan, r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, r.Next(1, 1 + lvlmod), 0, "Default", 0, 0, 0, 0, 0, 0, new Item("Lynx Fur", 0, 0, 2, 0, true, 1, 0, false, "Hand", true, "|", 0, 0));
+                rCreature = new Creature("Lynx", "l", Color.Tan, r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, r.Next(2, 2 + lvlmod), r.Next(1, 1 + lvlmod), 0, "Default", 0, 0, 0, 0, 0, 0, new Item("Lynx Fur", 0, 0, 2, 0, true, 1, 0, false, "Hand", true, "|", 0, 0));
             }
             else if (random == 2)
             {
@@ -667,11 +689,11 @@ namespace RPG_Adventure
                 {
                     drop = new Item("Orc Shield", 0, r.Next(1, 1 + lvlmod), r.Next(1, 4 + lvlmod), 0, false, 1, 0, false, "Shield", true, "O", 0, 0);
                 }
-                rCreature = new Creature("Orc", "o", Color.Green, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), 1, r.Next(1, 3 + lvlmod), r.Next(1, 2 + lvlmod), "Default", 0, 0, 0, 0, 0, 0, drop);
+                rCreature = new Creature("Orc", "o", Color.Green, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), 1, r.Next(0, 0 + lvlmod), r.Next(1, 3 + lvlmod), r.Next(1, 2 + lvlmod), "Default", 0, 0, 0, 0, 0, 0, drop);
             }
             else if (random == 3)
             {
-                rCreature = new Creature("Zombie", "Z", Color.LightGreen, r.Next(1, 3 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), "Zombie", 0, 0, 0, 0, 0, 0, new Item("Zombie Flesh", 0, 0, 1, 0, true, 1, r.Next(1, 1 + lvlmod), false, "Hand", true, "K", 0, 0));
+                rCreature = new Creature("Zombie", "Z", Color.LightGreen, r.Next(1, 3 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, 0, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), "Zombie", 0, 0, 0, 0, 0, 0, new Item("Zombie Flesh", 0, 0, 1, 0, true, 1, r.Next(1, 1 + lvlmod), false, "Hand", true, "K", 0, 0));
             }
             else if (random == 4)
             {
@@ -688,7 +710,7 @@ namespace RPG_Adventure
                 {
                     drop = new Item("Orc Arrows", 0, 0, r.Next(1, 1 + lvlmod), 0, true, r.Next(1, 100 + 1), 0, false, "Hand", true, "-", 0, 0);
                 }
-                rCreature = new Creature("Orc Archer", "a", Color.Green, r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, r.Next(1, 4 + lvlmod), r.Next(1, 2 + lvlmod), "Default", 0, 0, 0, 0, r.Next(3, 8), r.Next(10, 50 + lvlmod), drop);
+                rCreature = new Creature("Orc Archer", "a", Color.Green, r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, r.Next(0, 0 + lvlmod), r.Next(1, 4 + lvlmod), r.Next(1, 2 + lvlmod), "Default", 0, 0, 0, 0, r.Next(3, 8), r.Next(10, 50 + lvlmod), drop);
             }
             //Creatures after THIS only appear on later levels than 1
             if (lvlmod >= 2 & r.Next(1, 6 + 1) == 1)
@@ -703,17 +725,17 @@ namespace RPG_Adventure
                 {
                     drop = new Item("Fox Meat", 0, 0, 3, 0, true, r.Next(1, 3), r.Next(3, 3 + mod), false, "Hand", true, "K", 0, 0);
                 }
-                rCreature = new Creature("Fox", "f", Color.Crimson, r.Next(1, 1 + mod), r.Next(3, 3 + mod), 0, 2, r.Next(2, 2 + mod), 0, "Default", 0, 0, 0, 0, 0, 0, drop);
+                rCreature = new Creature("Fox", "f", Color.Crimson, r.Next(1, 1 + mod), r.Next(3, 3 + mod), 0, 2, r.Next(2, 3 + lvlmod), r.Next(2, 2 + mod), 0, "Default", 0, 0, 0, 0, 0, 0, drop);
             }
             if (lvlmod >= 4 & r.Next(1, 15) == 1)
             {
-                rCreature = new Creature("Multi-Snake", "s", Color.Yellow, 1, 1, 0, 1, 1, 0, "Default", 0, 0, 0, 0, 0, 0, null);
+                rCreature = new Creature("Multi-Snake", "s", Color.Yellow, 1, 1, 0, 1, 1, 1, 0, "Default", 0, 0, 0, 0, 0, 0, null);
             }
             if (lvlmod == 5 & r.Next(1, 3 + 1) == 1)
             {
                 Item drop = null;
                 int mod = lvlmod - 5;
-                rCreature = new Creature("Mosquitos", "m", Color.Gray, r.Next(15, 15 + mod), r.Next(1, 1 + mod), r.Next(3, 6 + mod), 3, r.Next(5, 5 + mod), 0, "Default", 0, 0, 0, 0, 0, 0, drop);
+                rCreature = new Creature("Mosquitos", "m", Color.Gray, r.Next(15, 15 + mod), r.Next(1, 1 + mod), r.Next(3, 6 + mod), 3, r.Next(3, 5 + mod), r.Next(5, 5 + mod), 0, "Default", 0, 0, 0, 0, 0, 0, drop);
             }
             //First Truly Hard Enemy
             if (lvlmod == 4 & r.Next(1, 15 + 1) == 1)
@@ -728,12 +750,12 @@ namespace RPG_Adventure
                 {
                     drop = new Item("Giant Armor", 0, r.Next(3, 3 + mod), r.Next(7, 15 + mod), 0, true, 1, 3, false, "Hand", true, "M", 0, 0);
                 }
-                rCreature = new Creature("Giant", "G", Color.Green, r.Next(8, 10 + mod), r.Next(3, 6 + mod), r.Next(3, 3 + mod), 1, r.Next(10, 18 + mod), r.Next(12, 20 + mod), "Zombie", 0, 0, 0, 0, 0, 0, drop);
+                rCreature = new Creature("Giant", "G", Color.Green, r.Next(8, 10 + mod), r.Next(3, 6 + mod), r.Next(3, 3 + mod), 1, r.Next(0, 1 + mod), r.Next(10, 18 + mod), r.Next(12, 20 + mod), "Zombie", 0, 0, 0, 0, 0, 0, drop);
             }
             //LOL Troller - Special Rare Creature
             if (r.Next(1, 300 + 1) == 1)
             {
-                rCreature = new Creature("LOL Troller", "t", Color.Red, 100, 100, 100, 8, 100, 100, "Zombie", 0, 0, 0, 0, 0, 0, new Item("Joke", 0, 0, 0, 0, false, 1, 0, false, "Hand", true, "j", 0, 0));
+                rCreature = new Creature("LOL Troller", "t", Color.Red, 100, 100, 100, 8, 100, 100, 100, "Zombie", 0, 0, 0, 0, 0, 0, new Item("Joke", 0, 0, 0, 0, false, 1, 0, false, "Hand", true, "j", 0, 0));
             }
             return rCreature;
         }

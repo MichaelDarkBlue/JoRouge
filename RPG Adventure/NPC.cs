@@ -22,7 +22,8 @@ namespace RPG_Adventure
         public int lastX;
         public int lastY;
         public int speed;
-        public NPC(int xI, int yI, int lastXI, int lastYI, string lookI, Color colorI, string nameI, int healthI, int damageI, int defenceI, int speedI, int goldI, string typeI, bool hostileI, int rangeI, int rangedAI, bool questI) : base(xI, yI, lookI, colorI)
+        public int dexterity;
+        public NPC(int xI, int yI, int lastXI, int lastYI, string lookI, Color colorI, string nameI, int healthI, int damageI, int defenceI, int speedI, int dexterityI, int goldI, string typeI, bool hostileI, int rangeI, int rangedAI, bool questI) : base(xI, yI, lookI, colorI)
         {
             x = xI;
             y = yI;
@@ -40,6 +41,7 @@ namespace RPG_Adventure
             lastX = lastXI;
             lastY = lastYI;
             speed = speedI;
+            dexterity = dexterityI;
         }
         public static string randomType(string type, Random r)
         {
@@ -488,24 +490,31 @@ namespace RPG_Adventure
                 {
                     if (r.Next(0, 100 + 1) <= npc.rangedA)
                     {
-                        random = r.Next(1, npc.damage + 1);
-                        if (player.defence > random)
+                        if (r.Next(0, player.dexterity + 1) < npc.dexterity)
                         {
-                            if (r.Next(0, player.defence) + 1 > random)
+                            random = r.Next(1, npc.damage + 1);
+                            if (player.defence > random)
                             {
-                                random = 0;
+                                if (r.Next(0, player.defence) + 1 > random)
+                                {
+                                    random = 0;
+                                }
                             }
+                            else
+                            {
+                                random -= player.defence;
+                                if (random <= 0)
+                                {
+                                    random = 1;
+                                }
+                            }
+                            player.health -= random;
+                            messageBox.Text = npc.name + " the " + npc.type + " shot you for " + random + " damage!" + Environment.NewLine + messageBox.Text;
                         }
                         else
                         {
-                            random -= player.defence;
-                            if (random <= 0)
-                            {
-                                random = 1;
-                            }
+                            messageBox.Text = "You dodged " + npc.name + " the " + npc.type + "'s ranged attack!" + Environment.NewLine + messageBox.Text;
                         }
-                        player.health -= random;
-                        messageBox.Text = npc.name + " the " + npc.type + " shot you for " + random + " damage!" + Environment.NewLine + messageBox.Text;
                     }
                     else
                     {
@@ -516,23 +525,26 @@ namespace RPG_Adventure
                 {
                     if (r.Next(0, 100 + 1) <= npc.rangedA)
                     {
-                        random = r.Next(1, npc.damage + 1);
-                        if (creatures[creaturehit].defence > random)
+                        if (r.Next(0, creatures[creaturehit].dexterity + 1) < npc.dexterity)
                         {
-                            if (r.Next(0, creatures[creaturehit].defence) + 1 > random)
+                            random = r.Next(1, npc.damage + 1);
+                            if (creatures[creaturehit].defence > random)
                             {
-                                random = 0;
+                                if (r.Next(0, creatures[creaturehit].defence) + 1 > random)
+                                {
+                                    random = 0;
+                                }
                             }
-                        }
-                        else
-                        {
-                            random -= creatures[creaturehit].defence;
-                            if (random <= 0)
+                            else
                             {
-                                random = 1;
+                                random -= creatures[creaturehit].defence;
+                                if (random <= 0)
+                                {
+                                    random = 1;
+                                }
                             }
+                            creatures[creaturehit].health -= random;
                         }
-                        creatures[creaturehit].health -= random;
                     }
                 }
             }
@@ -545,48 +557,58 @@ namespace RPG_Adventure
                 //Melee Attack against player
                 if (npc.hostile == true & player.reputation < 0)
                 {
-                    if (player.x == npc.x & player.y == npc.y)
+                    if (r.Next(0, player.dexterity + 1) < npc.dexterity)
+                    {
+                        if (player.x == npc.x & player.y == npc.y)
+                        {
+                            random = r.Next(1, npc.damage + 1);
+                            if (player.defence > random)
+                            {
+                                if (r.Next(0, player.defence) + 1 > random)
+                                {
+                                    random = 0;
+                                }
+                            }
+                            else
+                            {
+                                random -= player.defence;
+                                if (random <= 0)
+                                {
+                                    random = 1;
+                                }
+                            }
+                            player.health -= random;
+                            messageBox.Text = npc.name + " the " + npc.type + " hit you for " + random + " damage!" + Environment.NewLine + messageBox.Text;
+                        }
+                    }
+                    else
+                    {
+                        messageBox.Text = "You dodged " + npc.name + " the " + npc.type + "'s attack!" + Environment.NewLine + messageBox.Text;
+                    }
+                }
+                //Melee Attack against creature
+                if (creature.x == npc.x & creature.y == npc.y)
+                {
+                    if (r.Next(0, creature.dexterity + 1) < npc.dexterity)
                     {
                         random = r.Next(1, npc.damage + 1);
-                        if (player.defence > random)
+                        if (creature.defence > random)
                         {
-                            if (r.Next(0, player.defence) + 1 > random)
+                            if (r.Next(0, creature.defence) + 1 > random)
                             {
                                 random = 0;
                             }
                         }
                         else
                         {
-                            random -= player.defence;
+                            random -= creature.defence;
                             if (random <= 0)
                             {
                                 random = 1;
                             }
                         }
-                        player.health -= random;
-                        messageBox.Text = npc.name + " the " + npc.type + " hit you for " + random + " damage!" + Environment.NewLine + messageBox.Text;
+                        creature.health -= random;
                     }
-                }
-                //Melee Attack against creature
-                if (creature.x == npc.x & creature.y == npc.y)
-                {
-                    random = r.Next(1, npc.damage + 1);
-                    if (creature.defence > random)
-                    {
-                        if (r.Next(0, creature.defence) + 1 > random)
-                        {
-                            random = 0;
-                        }
-                    }
-                    else
-                    {
-                        random -= creature.defence;
-                        if (random <= 0)
-                        {
-                            random = 1;
-                        }
-                    }
-                    creature.health -= random;
                 }
             }
         }//End of npcMeleeAttack

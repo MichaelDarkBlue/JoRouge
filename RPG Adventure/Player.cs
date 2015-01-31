@@ -28,6 +28,7 @@ namespace RPG_Adventure
         public int sight;
         public int reputation;
         public int theivery;
+        public int dexterity;
         public int creaturesKilled;
         public int itemsBought;
         public List<Item> inventory = new List<Item>();
@@ -79,24 +80,31 @@ namespace RPG_Adventure
             if (creature.x == player.x & creature.y == player.y)
             {
                 int random;
-                random = r.Next(1, player.damage + 1);
-                if (creature.defence > random)
+                if (r.Next(0, creature.dexterity + 1) < player.dexterity)
                 {
-                    if (r.Next(0, creature.defence) + 1 > random)
+                    random = r.Next(1, player.damage + 1);
+                    if (creature.defence > random)
                     {
-                        random = 0;
+                        if (r.Next(0, creature.defence) + 1 > random)
+                        {
+                            random = 0;
+                        }
                     }
+                    else
+                    {
+                        random -= creature.defence;
+                        if (random <= 0)
+                        {
+                            random = 1;
+                        }
+                    }
+                    creature.health -= random;
+                    messageBox.Text = "You hit " + creature.name + " for " + random + " damage!" + Environment.NewLine + messageBox.Text;
                 }
                 else
                 {
-                    random -= creature.defence;
-                    if (random <= 0)
-                    {
-                        random = 1;
-                    }
+                    messageBox.Text = creature.name + " dodged your attack!" + Environment.NewLine + messageBox.Text;
                 }
-                creature.health -= random;
-                messageBox.Text = "You hit " + creature.name + " for " + random + " damage!" + Environment.NewLine + messageBox.Text;
                 if (creature.health <= 0)
                 {
                     //Quests
@@ -587,24 +595,31 @@ namespace RPG_Adventure
                 {
                     if (r.Next(0, 100 + 1) <= player.rangedA)
                     {
-                        random = r.Next(1, player.rangeD + 1);
-                        if (creatures[creaturehit].defence > random)
+                        if (r.Next(0, creatures[creaturehit].dexterity + 1) < player.dexterity)
                         {
-                            if (r.Next(0, creatures[creaturehit].defence) + 1 > random)
+                            random = r.Next(1, player.rangeD + 1);
+                            if (creatures[creaturehit].defence > random)
                             {
-                                random = 0;
+                                if (r.Next(0, creatures[creaturehit].defence) + 1 > random)
+                                {
+                                    random = 0;
+                                }
                             }
+                            else
+                            {
+                                random -= creatures[creaturehit].defence;
+                                if (random <= 0)
+                                {
+                                    random = 1;
+                                }
+                            }
+                            creatures[creaturehit].health -= random;
+                            messageBox.Text = "You shot " + creatures[creaturehit].name + " for " + random + " damage!" + Environment.NewLine + messageBox.Text;
                         }
                         else
                         {
-                            random -= creatures[creaturehit].defence;
-                            if (random <= 0)
-                            {
-                                random = 1;
-                            }
+                            messageBox.Text = creatures[creaturehit].name + " dodged your ranged attack!" + Environment.NewLine + messageBox.Text;
                         }
-                        creatures[creaturehit].health -= random;
-                        messageBox.Text = "You shot " + creatures[creaturehit].name + " for " + random + " damage!" + Environment.NewLine + messageBox.Text;
                         if (creatures[creaturehit].health <= 0)
                         {
                             //Quests

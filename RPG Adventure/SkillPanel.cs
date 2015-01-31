@@ -38,6 +38,7 @@ namespace RPG_Adventure
             statBox.Text += Environment.NewLine + "Ranged Accuracy: " + p.rangedA + "%";
             statBox.Text += Environment.NewLine + "Ranged Range: " + p.rangedR;
             statBox.Text += Environment.NewLine + "Theivery: " + p.theivery;
+            statBox.Text += Environment.NewLine + "Dexterity: " + p.dexterity;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -85,6 +86,16 @@ namespace RPG_Adventure
             if (p.skillp > 0)
             {
                 p.theivery++;
+                p.skillp--;
+            }
+            skills();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (p.skillp > 0)
+            {
+                p.dexterity++;
                 p.skillp--;
             }
             skills();
