@@ -108,13 +108,16 @@ namespace RPG_Adventure
                 if (creature.health <= 0)
                 {
                     //Quests
-                    for (int i = 0; i < player.quests.Count; i++)
+                    if (player.quests != null)
                     {
-                        if (player.quests[i].type == "Kill" & creature.name == player.quests[i].objective)
+                        for (int i = 0; i < player.quests.Count; i++)
                         {
-                            if (player.quests[i].sofar > 0)
+                            if (player.quests[i].type == "Kill" & creature.name == player.quests[i].objective)
                             {
-                                player.quests[i].sofar++;
+                                if (player.quests[i].sofar > 0)
+                                {
+                                    player.quests[i].sofar++;
+                                }
                             }
                         }
                     }

@@ -17,11 +17,12 @@ namespace RPG_Adventure
         private Player p;
         private Form1 mainform = new Form1();
         private TextBox messagebox;
-        public Inventory(Player inP, TextBox messagebox)
+        public Inventory(Player inP, TextBox messageboxI)
         {
             InitializeComponent();
             inv = inP.inventory;
             p = inP;
+            messagebox = messageboxI;
             draw(0);
             //inv.Add(new Item("Block"));
             //inv[0].damage = 0;
