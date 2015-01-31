@@ -390,7 +390,7 @@ namespace RPG_Adventure
                 string name = randomName(name = "");
                 string type = "";
                 NPC.randomType(type, r);
-                npcs.Add(new NPC(placeX, placeY, placeX, placeY, "☺", Color.Wheat, name, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 1 + lvlmod), 1, r.Next(0, 2 + lvlmod), NPC.randomType(name, r), false, r.Next(1, 8 + 1), r.Next(10, 100 + 1), quest));
+                npcs.Add(new NPC(placeX, placeY, placeX, placeY, "☺", Color.Wheat, name, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 1 + lvlmod), 1, r.Next(0, 1 + lvlmod), r.Next(0, 2 + lvlmod), NPC.randomType(name, r), false, r.Next(1, 8 + 1), r.Next(10, 100 + 1), quest));
             }
             random = 0;
             //Quest NPCS
@@ -411,7 +411,7 @@ namespace RPG_Adventure
                     string name = player.quests[i].npcname;
                     string type = "";
                     NPC.randomType(type, r);
-                    npcs.Add(new NPC(placeX, placeY, placeX, placeY, "☺", Color.Wheat, name, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 1 + lvlmod), 1, r.Next(0, 2 + lvlmod), NPC.randomType(name, r), false, r.Next(1, 8 + 1), r.Next(10, 100 + 1), false));
+                    npcs.Add(new NPC(placeX, placeY, placeX, placeY, "☺", Color.Wheat, name, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 1 + lvlmod), 1, r.Next(0, 1 + lvlmod), r.Next(0, 2 + lvlmod), NPC.randomType(name, r), false, r.Next(1, 8 + 1), r.Next(10, 100 + 1), false));
                 }
             }
             //Tree Placement
@@ -793,7 +793,7 @@ namespace RPG_Adventure
             {
                 for (int t = 0; t < npcs.Count; t++)
                 {
-                    Creature blank = new Creature("", "", Color.Black, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, null);
+                    Creature blank = new Creature("", "", Color.Black, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, null);
                     NPC.npcMovement(npcs[t], walls, doors, r);
                     NPC.npcMeleeAttack(npcs[t], blank, player, messageBox, r);
                     NPC.npcRangedAttack(npcs[t], creatures, player, arrow, walls, width, height, messageBox, r);
