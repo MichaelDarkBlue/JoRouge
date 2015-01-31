@@ -691,7 +691,7 @@ namespace RPG_Adventure
                 rCreature = new Creature("Orc Archer", "a", Color.Green, r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, r.Next(1, 4 + lvlmod), r.Next(1, 2 + lvlmod), "Default", 0, 0, 0, 0, r.Next(3, 8), r.Next(10, 50 + lvlmod), drop);
             }
             //Creatures after THIS only appear on later levels than 1
-            if (lvlmod >= 2 & r.Next(1, 4 + 1) == 1)
+            if (lvlmod >= 2 & r.Next(1, 6 + 1) == 1)
             {
                 Item drop = null;
                 int mod = lvlmod - 2;
@@ -705,6 +705,10 @@ namespace RPG_Adventure
                 }
                 rCreature = new Creature("Fox", "f", Color.Crimson, r.Next(1, 1 + mod), r.Next(3, 3 + mod), 0, 2, r.Next(2, 2 + mod), 0, "Default", 0, 0, 0, 0, 0, 0, drop);
             }
+            if (lvlmod >= 4 & r.Next(1, 15) == 1)
+            {
+                rCreature = new Creature("Multi-Snake", "s", Color.Yellow, 1, 1, 0, 1, 1, 0, "Default", 0, 0, 0, 0, 0, 0, null);
+            }
             if (lvlmod == 5 & r.Next(1, 3 + 1) == 1)
             {
                 Item drop = null;
@@ -712,7 +716,7 @@ namespace RPG_Adventure
                 rCreature = new Creature("Mosquitos", "m", Color.Gray, r.Next(15, 15 + mod), r.Next(1, 1 + mod), r.Next(3, 6 + mod), 3, r.Next(5, 5 + mod), 0, "Default", 0, 0, 0, 0, 0, 0, drop);
             }
             //First Truly Hard Enemy
-            if (lvlmod == 4 & r.Next(1, 6 + 1) == 1)
+            if (lvlmod == 4 & r.Next(1, 15 + 1) == 1)
             {
                 Item drop = null;
                 int mod = lvlmod - 4;
@@ -727,7 +731,7 @@ namespace RPG_Adventure
                 rCreature = new Creature("Giant", "G", Color.Green, r.Next(8, 10 + mod), r.Next(3, 6 + mod), r.Next(3, 3 + mod), 1, r.Next(10, 18 + mod), r.Next(12, 20 + mod), "Zombie", 0, 0, 0, 0, 0, 0, drop);
             }
             //LOL Troller - Special Rare Creature
-            if (r.Next(1, 50 + 1) == 1)
+            if (r.Next(1, 300 + 1) == 1)
             {
                 rCreature = new Creature("LOL Troller", "t", Color.Red, 100, 100, 100, 8, 100, 100, "Zombie", 0, 0, 0, 0, 0, 0, new Item("Joke", 0, 0, 0, 0, false, 1, 0, false, "Hand", true, "j", 0, 0));
             }

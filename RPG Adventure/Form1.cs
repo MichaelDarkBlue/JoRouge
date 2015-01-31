@@ -468,10 +468,10 @@ namespace RPG_Adventure
             {
                 player.inventory.Add(new Item("Bread", 0, 0, 1, 0, true, 1, 2, false, "Hand", true, "o", 0, 0));
                 player.quests = new List<Quest>();
-                player.health = 8;
-                player.maxhealth = 8;
+                player.health = 1000;
+                player.maxhealth = 1000;
                 player.damage = 1;
-                player.defence = 0;
+                player.defence = 100;
                 player.gold = 0;
                 player.xp = 0;
                 player.xpul = 5;
@@ -818,6 +818,12 @@ namespace RPG_Adventure
                     NPC.npcMeleeAttack(npcs[t], creatures[i], player, messageBox, r);
                     NPC.npcRangedAttack(npcs[t], creatures, player, arrow, walls, width, height, messageBox, r);
                     NPC.npcDead(npcs[t]);
+                }
+                if (creatures[i].name.Contains("Multi") & creatures[i].health == 0)
+                {
+                    creatures[i].health = 1;
+                    messageBox.Text = creatures[i].name + " split into two!" + Environment.NewLine + messageBox.Text;
+                    creatures.Add(creatures[i]);
                 }
                 Creature.creatureDead(creatures[i]);
                 Creature.creatureMovement(creatures[i], player, npcs, walls, doors, r);

@@ -92,11 +92,14 @@ namespace RPG_Adventure
                 mainform.game(0);
                 draw(0);
             }
-            if (inv[selected].name == "Joke")
+            if (inv.Count > 0)
             {
-                messagebox.Text = "You laugh hysterically." + Environment.NewLine + messagebox.Text;
-                mainform.game(0);
-                draw(0);
+                if (inv[selected].name == "Joke")
+                {
+                    messagebox.Text = "You laugh hysterically." + Environment.NewLine + messagebox.Text;
+                    mainform.game(0);
+                    draw(0);
+                }
             }
         }
         private void button4_Click(object sender, EventArgs e)
