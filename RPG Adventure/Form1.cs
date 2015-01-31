@@ -468,10 +468,10 @@ namespace RPG_Adventure
             {
                 player.inventory.Add(new Item("Bread", 0, 0, 1, 0, true, 1, 2, false, "Hand", true, "o", 0, 0));
                 player.quests = new List<Quest>();
-                player.health = 1000;
-                player.maxhealth = 1000;
+                player.health = 8;
+                player.maxhealth = 8;
                 player.damage = 1;
-                player.defence = 100;
+                player.defence = 0;
                 player.gold = 0;
                 player.xp = 0;
                 player.xpul = 5;

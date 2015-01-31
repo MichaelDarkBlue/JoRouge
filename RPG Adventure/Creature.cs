@@ -526,7 +526,7 @@ namespace RPG_Adventure
                 {
                     if (r.Next(0, 100 + 1) <= creature.rangedA)
                     {
-                        if (r.Next(0, player.dexterity + 1) < creature.dexterity)
+                        if (r.Next(0, player.dexterity + 1) <= creature.dexterity)
                         {
                             random = r.Next(1, creature.damage + 1);
                             if (player.defence > random)
@@ -560,7 +560,7 @@ namespace RPG_Adventure
                     {
                         if (r.Next(0, 100 + 1) <= creature.rangedA)
                         {
-                            if (r.Next(0, npcs[creaturehit].dexterity + 1) < creature.dexterity)
+                            if (r.Next(0, npcs[creaturehit].dexterity + 1) <= creature.dexterity)
                             {
                                 random = r.Next(1, creature.damage + 1);
                                 if (npcs[creaturehit].defence > random)
@@ -593,7 +593,7 @@ namespace RPG_Adventure
                 //Melee Attack against player
                 if (player.x == creature.x & player.y == creature.y)
                 {
-                    if (r.Next(0, player.dexterity + 1) < creature.dexterity)
+                    if (r.Next(0, player.dexterity + 1) <= creature.dexterity)
                     {
                         random = r.Next(1, creature.damage + 1);
                         if (player.defence > random)
@@ -624,7 +624,7 @@ namespace RPG_Adventure
                 {
                     if (npcs[i].x == creature.x & npcs[i].y == creature.y)
                     {
-                        if (r.Next(0, npcs[i].dexterity + 1) < creature.dexterity)
+                        if (r.Next(0, npcs[i].dexterity + 1) <= creature.dexterity)
                         {
                             random = r.Next(1, creature.damage + 1);
                             if (npcs[i].defence > random)

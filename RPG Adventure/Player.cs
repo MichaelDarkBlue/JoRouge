@@ -80,7 +80,7 @@ namespace RPG_Adventure
             if (creature.x == player.x & creature.y == player.y)
             {
                 int random;
-                if (r.Next(0, creature.dexterity + 1) < player.dexterity)
+                if (r.Next(0, creature.dexterity + 1) <= player.dexterity)
                 {
                     random = r.Next(1, player.damage + 1);
                     if (creature.defence > random)
@@ -595,7 +595,7 @@ namespace RPG_Adventure
                 {
                     if (r.Next(0, 100 + 1) <= player.rangedA)
                     {
-                        if (r.Next(0, creatures[creaturehit].dexterity + 1) < player.dexterity)
+                        if (r.Next(0, creatures[creaturehit].dexterity + 1) <= player.dexterity)
                         {
                             random = r.Next(1, player.rangeD + 1);
                             if (creatures[creaturehit].defence > random)
