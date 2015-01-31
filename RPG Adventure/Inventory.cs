@@ -16,7 +16,8 @@ namespace RPG_Adventure
         private List<Item> inv;
         private Player p;
         private Form1 mainform = new Form1();
-        public Inventory(Player inP)
+        private TextBox messagebox;
+        public Inventory(Player inP, TextBox messagebox)
         {
             InitializeComponent();
             inv = inP.inventory;
@@ -45,6 +46,7 @@ namespace RPG_Adventure
                     p.rangedA += inv[selected].accuracy;
                     p.ranged = true;
                 }
+                messagebox.Text = "You equiped a " + inv[selected].name + "." + Environment.NewLine + messagebox.Text;
                 mainform.game(0);
                 draw(0);
             }
@@ -69,6 +71,7 @@ namespace RPG_Adventure
                     p.rangedA -= inv[selected].accuracy;
                     p.ranged = false;
                 }
+                messagebox.Text = "You unequiped a " + inv[selected].name + "." + Environment.NewLine + messagebox.Text;
                 mainform.game(0);
                 draw(0);
             }
@@ -86,6 +89,12 @@ namespace RPG_Adventure
                 {
                     inv.Remove(inv[selected]);
                 }
+                mainform.game(0);
+                draw(0);
+            }
+            if (inv[selected].name == "Joke")
+            {
+                messagebox.Text = "You laugh hysterically." + Environment.NewLine + messagebox.Text;
                 mainform.game(0);
                 draw(0);
             }
@@ -110,6 +119,7 @@ namespace RPG_Adventure
                 {
                     inv.Remove(inv[selected]);
                 }
+                messagebox.Text = "You sold a " + inv[selected].name + " for " + inv[selected].sellprice + " gold." + Environment.NewLine + messagebox.Text;
                 mainform.game(0);
                 draw(0);
             }

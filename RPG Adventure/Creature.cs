@@ -648,5 +648,90 @@ namespace RPG_Adventure
                 }
 			}
         }//End of closestEnemy
+        public static Creature randomCreature(int lvlmod, out Creature rCreature, Random r)
+        {
+            rCreature = null;
+            int random = r.Next(1, 4 + 1);
+            if (random == 1)
+            {
+                rCreature = new Creature("Lynx", "l", Color.Tan, r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, r.Next(1, 1 + lvlmod), 0, "Default", 0, 0, 0, 0, 0, 0, new Item("Lynx Fur", 0, 0, 2, 0, true, 1, 0, false, "Hand", true, "|", 0, 0));
+            }
+            else if (random == 2)
+            {
+                Item drop = null;
+                if (r.Next(0, 5 + 1) == 1)
+                {
+                    drop = new Item("Orc Sword", r.Next(1, 1 + lvlmod), 0, r.Next(1, 4 + lvlmod), 0, false, 1, 0, false, "Hand", true, "/", 0, 0);
+                }
+                else if (r.Next(0, 5 + 1) == 1)
+                {
+                    drop = new Item("Orc Shield", 0, r.Next(1, 1 + lvlmod), r.Next(1, 4 + lvlmod), 0, false, 1, 0, false, "Shield", true, "O", 0, 0);
+                }
+                rCreature = new Creature("Orc", "o", Color.Green, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), 1, r.Next(1, 3 + lvlmod), r.Next(1, 2 + lvlmod), "Default", 0, 0, 0, 0, 0, 0, drop);
+            }
+            else if (random == 3)
+            {
+                rCreature = new Creature("Zombie", "Z", Color.LightGreen, r.Next(1, 3 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), "Zombie", 0, 0, 0, 0, 0, 0, new Item("Zombie Flesh", 0, 0, 1, 0, true, 1, r.Next(1, 1 + lvlmod), false, "Hand", true, "K", 0, 0));
+            }
+            else if (random == 4)
+            {
+                Item drop = null;
+                if (r.Next(0, 5 + 1) == 1)
+                {
+                    drop = new Item("Orc Crossbow", r.Next(1, 1 + lvlmod), 0, r.Next(1, 1 + lvlmod), 0, false, 1, 0, false, "Hand", true, "C", r.Next(3, 8), r.Next(10, 50 + lvlmod));
+                }
+                else if (r.Next(0, 5 + 1) == 1)
+                {
+                    drop = new Item("Orc Leather Armor", 0, r.Next(1, 1 + lvlmod), r.Next(1, 4 + lvlmod), 0, false, 1, 0, false, "Armor", true, "H", 0, 0);
+                }
+                else if (r.Next(0, 5 + 1) == 1)
+                {
+                    drop = new Item("Orc Arrows", 0, 0, r.Next(1, 1 + lvlmod), 0, true, r.Next(1, 100 + 1), 0, false, "Hand", true, "-", 0, 0);
+                }
+                rCreature = new Creature("Orc Archer", "a", Color.Green, r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, r.Next(1, 4 + lvlmod), r.Next(1, 2 + lvlmod), "Default", 0, 0, 0, 0, r.Next(3, 8), r.Next(10, 50 + lvlmod), drop);
+            }
+            //Creatures after THIS only appear on later levels than 1
+            if (lvlmod >= 2 & r.Next(1, 4 + 1) == 1)
+            {
+                Item drop = null;
+                int mod = lvlmod - 2;
+                if (r.Next(1, 2 + 1) == 1)
+                {
+                    drop = new Item("Fox Fur", 0, 0, r.Next(3, 3 + mod), 0, true, r.Next(1, 3), 0, false, "Hand", true, "|", 0, 0);
+                }
+                else
+                {
+                    drop = new Item("Fox Meat", 0, 0, 3, 0, true, r.Next(1, 3), r.Next(3, 3 + mod), false, "Hand", true, "K", 0, 0);
+                }
+                rCreature = new Creature("Fox", "f", Color.Crimson, r.Next(1, 1 + mod), r.Next(3, 3 + mod), 0, 2, r.Next(2, 2 + mod), 0, "Default", 0, 0, 0, 0, 0, 0, drop);
+            }
+            if (lvlmod == 5 & r.Next(1, 3 + 1) == 1)
+            {
+                Item drop = null;
+                int mod = lvlmod - 5;
+                rCreature = new Creature("Mosquitos", "m", Color.Gray, r.Next(15, 15 + mod), r.Next(1, 1 + mod), r.Next(3, 6 + mod), 3, r.Next(5, 5 + mod), 0, "Default", 0, 0, 0, 0, 0, 0, drop);
+            }
+            //First Truly Hard Enemy
+            if (lvlmod == 4 & r.Next(1, 6 + 1) == 1)
+            {
+                Item drop = null;
+                int mod = lvlmod - 4;
+                if (r.Next(1, 2 + 1) == 1)
+                {
+                    drop = new Item("Giant Sword", r.Next(3, 6 + mod), 0, r.Next(9, 13), 0, true, 1, 0, false, "Hand", true, "/", 0, 0);
+                }
+                else
+                {
+                    drop = new Item("Giant Armor", 0, r.Next(3, 3 + mod), r.Next(7, 15 + mod), 0, true, 1, 3, false, "Hand", true, "M", 0, 0);
+                }
+                rCreature = new Creature("Giant", "G", Color.Green, r.Next(8, 10 + mod), r.Next(3, 6 + mod), r.Next(3, 3 + mod), 1, r.Next(10, 18 + mod), r.Next(12, 20 + mod), "Zombie", 0, 0, 0, 0, 0, 0, drop);
+            }
+            //LOL Troller - Special Rare Creature
+            if (r.Next(1, 50 + 1) == 1)
+            {
+                rCreature = new Creature("LOL Troller", "t", Color.Red, 100, 100, 100, 8, 100, 100, "Zombie", 0, 0, 0, 0, 0, 0, new Item("Joke", 0, 0, 0, 0, false, 1, 0, false, "Hand", true, "j", 0, 0));
+            }
+            return rCreature;
+        }
     }//End of Creature
 }//End of namespace

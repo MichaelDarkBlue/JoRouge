@@ -60,7 +60,7 @@ namespace RPG_Adventure
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            Inventory inv = new Inventory(player);
+            Inventory inv = new Inventory(player, messageBox);
             inv.Show();
             game(0);
         }
@@ -323,45 +323,13 @@ namespace RPG_Adventure
                         goto RetryCreature;
                     }
                 }
-                int l = r.Next(1, 4 + 1);
-                if (l == 1)
-                {
-                    creatures.Add(new Creature("Lynx", "l", Color.Tan, r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, r.Next(1, 1 + lvlmod), 0, "Default", placeX, placeY, placeX, placeY, 0, 0, new Item("Lynx Fur", 0, 0, 2, 0, true, 1, 0, false, "Hand", true, "|", 0, 0)));
-                }
-                else if (l == 2)
-                {
-                    Item drop = null;
-                    if (r.Next(0, 5 + 1) == 1)
-                    {
-                        drop = new Item("Orc Sword", r.Next(1, 1 + lvlmod), 0, r.Next(1, 4 + lvlmod), 0, false, 1, 0, false, "Hand", true, "/", 0, 0);
-                    }
-                    else if (r.Next(0, 5 + 1) == 1)
-                    {
-                        drop = new Item("Orc Shield", 0, r.Next(1, 1 + lvlmod), r.Next(1, 4 + lvlmod), 0, false, 1, 0, false, "Shield", true, "O", 0, 0);
-                    }
-                    creatures.Add(new Creature("Orc", "o", Color.Green, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), 1, r.Next(1, 3 + lvlmod), r.Next(1, 2 + lvlmod), "Default", placeX, placeY, placeX, placeY, 0, 0, drop));
-                }
-                else if (l == 3)
-                {
-                    creatures.Add(new Creature("Zombie", "Z", Color.LightGreen, r.Next(1, 3 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), "Zombie", placeX, placeY, placeX, placeY, 0, 0, new Item("Zombie Flesh", 0, 0, 1, 0, true, 1, r.Next(1, 1 + lvlmod), false, "Hand", true, "K", 0, 0)));
-                }
-                else if (l == 4)
-                {
-                    Item drop = null;
-                    if (r.Next(0, 5 + 1) == 1)
-                    {
-                        drop = new Item("Orc Crossbow", r.Next(1, 1 + lvlmod), 0, r.Next(1, 1 + lvlmod), 0, false, 1, 0, false, "Hand", true, "C", r.Next(3, 8), r.Next(10, 50 + lvlmod));
-                    }
-                    else if (r.Next(0, 5 + 1) == 1)
-                    {
-                        drop = new Item("Orc Leather Armor", 0, r.Next(1, 1 + lvlmod), r.Next(1, 4 + lvlmod), 0, false, 1, 0, false, "Armor", true, "H", 0, 0);
-                    }
-                    else if (r.Next(0, 5 + 1) == 1)
-                    {
-                        drop = new Item("Orc Arrows", 0, 0, r.Next(1, 1 + lvlmod), 0, true, r.Next(1, 100 + 1), 0, false, "Hand", true, "-", 0, 0);
-                    }
-                    creatures.Add(new Creature("Orc Archer", "a", Color.Green, r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, r.Next(1, 4 + lvlmod), r.Next(1, 2 + lvlmod), "Default", placeX, placeY, placeX, placeY, r.Next(3, 8), r.Next(10, 50 + lvlmod), drop));
-                }
+                Creature randomCreature;
+                Creature.randomCreature(lvlmod, out randomCreature, r);
+                randomCreature.x = placeX;
+                randomCreature.y = placeY;
+                randomCreature.lastX = placeX;
+                randomCreature.lastY = placeY;
+                creatures.Add(randomCreature);
             }
             //Merchants
             random = 0;
@@ -717,45 +685,13 @@ namespace RPG_Adventure
                         goto RetryCreature;
                     }
                 }
-                int l = r.Next(1, 4 + 1);
-                if (l == 1)
-                {
-                    creatures.Add(new Creature("Lynx", "l", Color.Tan, r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, r.Next(1, 1 + lvlmod), 0, "Default", placeX, placeY, placeX, placeY, 0, 0, new Item("Lynx Fur", 0, 0, 2, 0, true, 1, 0, false, "Hand", true, "|", 0, 0)));
-                }
-                else if (l == 2)
-                {
-                    Item drop = null;
-                    if (r.Next(0, 5 + 1) == 1)
-                    {
-                        drop = new Item("Orc Sword", r.Next(1, 1 + lvlmod), 0, r.Next(1, 4 + lvlmod), 0, false, 1, 0, false, "Hand", true, "/", 0, 0);
-                    }
-                    else if (r.Next(0, 5 + 1) == 1)
-                    {
-                        drop = new Item("Orc Shield", 0, r.Next(1, 1 + lvlmod), r.Next(1, 4 + lvlmod), 0, false, 1, 0, false, "Shield", true, "O", 0, 0);
-                    }
-                    creatures.Add(new Creature("Orc", "o", Color.Green, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), 1, r.Next(1, 3 + lvlmod), r.Next(1, 2 + lvlmod), "Default", placeX, placeY, placeX, placeY, 0, 0, drop));
-                }
-                else if (l == 3)
-                {
-                    creatures.Add(new Creature("Zombie", "Z", Color.LightGreen, r.Next(1, 3 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, r.Next(1, 2 + lvlmod), r.Next(1, 1 + lvlmod), "Zombie", placeX, placeY, placeX, placeY, 0, 0, new Item("Zombie Flesh", 0, 0, 1, 0, true, 1, r.Next(1, 1 + lvlmod), false, "Hand", true, "K", 0, 0)));
-                }
-                else if (l == 4)
-                {
-                    Item drop = null;
-                    if (r.Next(0, 5 + 1) == 1)
-                    {
-                        drop = new Item("Orc Crossbow", r.Next(1, 1 + lvlmod), 0, r.Next(1, 1 + lvlmod), 0, false, 1, 0, false, "Hand", true, "C", r.Next(3, 8), r.Next(10, 50 + lvlmod));
-                    }
-                    else if (r.Next(0, 5 + 1) == 1)
-                    {
-                        drop = new Item("Orc Leather Armor", 0, r.Next(1, 1 + lvlmod), r.Next(1, 4 + lvlmod), 0, false, 1, 0, false, "Armor", true, "H", 0, 0);
-                    }
-                    else if (r.Next(0, 5 + 1) == 1)
-                    {
-                        drop = new Item("Orc Arrows", 0, 0, r.Next(1, 1 + lvlmod), 0, true, r.Next(1, 100 + 1), 0, false, "Hand", true, "-", 0, 0);
-                    }
-                    creatures.Add(new Creature("Orc Archer", "a", Color.Green, r.Next(1, 1 + lvlmod), r.Next(1, 1 + lvlmod), r.Next(0, 0 + lvlmod), 1, r.Next(1, 4 + lvlmod), r.Next(1, 2 + lvlmod), "Default", placeX, placeY, placeX, placeY, r.Next(3, 8), r.Next(10, 50 + lvlmod), drop));
-                }
+                Creature randomCreature;
+                Creature.randomCreature(lvlmod, out randomCreature, r);
+                randomCreature.x = placeX;
+                randomCreature.y = placeY;
+                randomCreature.lastX = placeX;
+                randomCreature.lastY = placeY;
+                creatures.Add(randomCreature);
             }
             //Merchants
             random = r.Next(0, 3 + 1);
@@ -918,7 +854,7 @@ namespace RPG_Adventure
             //69 = e
             if (keypressed == 69)
             {
-                Inventory inv = new Inventory(player);
+                Inventory inv = new Inventory(player, messageBox);
                 inv.Show();
             }
             //Player Health Don't Go Negative
