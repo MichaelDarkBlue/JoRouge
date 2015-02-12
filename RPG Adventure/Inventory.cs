@@ -139,11 +139,17 @@ namespace RPG_Adventure
         {
             if (keypressed == 38)
             {
-                selected--;
+                if (selected != 0)
+                {
+                    selected--;
+                }
             }
             if (keypressed == 40)
             {
-                selected++;
+                if (selected != inv.Count - 1)
+                {
+                    selected++;
+                }
             }
             textBox1.Text = "";
             for (int i = 0; i < inv.Count; i++)

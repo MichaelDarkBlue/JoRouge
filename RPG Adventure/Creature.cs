@@ -753,7 +753,7 @@ namespace RPG_Adventure
                 rCreature = new Creature("Giant", "G", Color.Green, r.Next(8, 10 + mod), r.Next(3, 6 + mod), r.Next(3, 3 + mod), 1, r.Next(0, 1 + mod), r.Next(10, 18 + mod), r.Next(12, 20 + mod), "Zombie", 0, 0, 0, 0, 0, 0, drop);
             }
             //LOL Troller - Special Rare Creature
-            if (r.Next(1, 300 + 1) == 1)
+            if (r.Next(1, 10000 + 1) == 1)
             {
                 rCreature = new Creature("LOL Troller", "t", Color.Red, 100, 100, 100, 8, 100, 100, 100, "Zombie", 0, 0, 0, 0, 0, 0, new Item("Joke", 0, 0, 0, 0, false, 1, 0, false, "Hand", true, "j", 0, 0));
             }

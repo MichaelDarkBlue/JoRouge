@@ -67,11 +67,44 @@ namespace RPG_Adventure
             }
             return type;
         }//End of randomType
-        public static void npcMovement(NPC npc, List<Entity> walls, List<Door> doors, Random r)
+        public static void npcMovement(NPC npc, Player player, List<Creature> creatures,List<Entity> walls, List<Door> doors, Random r)
         {
             for (int i = 0; i < npc.speed; i++)
             {
-                if (r.Next(1, 3 + 1) == 1)
+                if (npc.hostile == true)
+                {
+                    int moveX, moveY;
+                    closestEnemy(npc, player, creatures, out moveX, out moveY);
+                    if (moveX != -1 & moveY != -1)
+                    {
+                        if (r.Next(1, 2 + 1) == 1)
+                        {
+                            if (r.Next(1, 2 + 1) == 1)
+                            {
+                                if (moveX > npc.x)
+                                {
+                                    npc.x++;
+                                }
+                                else if (moveX < npc.x)
+                                {
+                                    npc.x--;
+                                }
+                            }
+                            else
+                            {
+                                if (moveY > npc.y)
+                                {
+                                    npc.y++;
+                                }
+                                else if (moveY < npc.y)
+                                {
+                                    npc.y--;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (r.Next(1, 3 + 1) == 1)
                 {
                     if (r.Next(1, 2 + 1) == 1)
                     {
@@ -621,5 +654,23 @@ namespace RPG_Adventure
                 npc.y = -20;
             }
         }//End of creatureDead
+        public static void closestEnemy(NPC npc, Player player, List<Creature> creatures, out int moveX, out int moveY)
+        {
+            moveX = -1;
+            moveY = -1;
+            if (player.reputation < 0)
+            {
+                moveX = player.x;
+                moveY = player.y;
+            }
+            for (int i = 0; i < creatures.Count; i++)
+            {
+                if (creatures[i].x < moveX & creatures[i].y < moveY)
+                {
+                    moveX = creatures[i].x;
+                    moveY = creatures[i].y;
+                }
+            }
+        }//End of closestEnemy
     }//End of NPC
 }//End of namespace
