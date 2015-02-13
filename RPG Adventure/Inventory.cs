@@ -108,6 +108,7 @@ namespace RPG_Adventure
             if (Application.OpenForms.OfType<MerchantWindow>().Any() & inv[selected].equiped == false)
             {
                 p.gold += inv[selected].sellprice;
+                messagebox.Text = "You sold a " + inv[selected].name + " for " + inv[selected].sellprice + " gold." + Environment.NewLine + messagebox.Text;
                 if (!inv[selected].name.Contains("Arrows"))
                 {
                     if (inv[selected].count > 1)
@@ -123,7 +124,6 @@ namespace RPG_Adventure
                 {
                     inv.Remove(inv[selected]);
                 }
-                messagebox.Text = "You sold a " + inv[selected].name + " for " + inv[selected].sellprice + " gold." + Environment.NewLine + messagebox.Text;
                 mainform.game(0);
                 draw(0);
             }
